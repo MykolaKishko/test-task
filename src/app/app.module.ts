@@ -2,14 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-
-import { AppComponent } from './app.component';
+import { NgxsModule } from '@ngxs/store';
 import { AuthModule } from './auth/auth.module';
-import { AuthService } from './shared/services/auth.service';
 import { SystemModule } from './system/system.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
 
+import { AuthService } from './shared/services/auth.service';
+import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent
@@ -21,7 +21,10 @@ import { MaterialModule } from './material/material.module';
     AuthModule,
     SystemModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    NgxsModule.forRoot([
+      ZooState
+    ])
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

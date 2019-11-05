@@ -223,7 +223,7 @@ export class SearchComponent implements OnInit {
       }
     });
   }
-  add(firstName: any, lastName: any, userName: any, email: any, phone: any) { 
+  add(firstName: any, lastName: any, userName: any, email: any, phone: any) {
     // let search = [firstName, lastName, userName, email, phone];
     // let searchParam = [];
     // search.forEach((elem, index) => {
@@ -262,6 +262,7 @@ export class SearchComponent implements OnInit {
         }
       });
     }
+
     if (this.lastNameSearch !== '') {
       this.count = 1;
       this.users.filter( e => {

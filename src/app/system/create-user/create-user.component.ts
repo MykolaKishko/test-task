@@ -84,10 +84,10 @@ export class CreateUserComponent implements OnInit {
 
   getCountry(): void{
     this.globalService.getCountries().subscribe(
-       countries => this.countries = countries,
-       err => err
-     );
-   }
+      countries => this.countries = countries,
+      err => err
+    );
+  }
 
 addNewAddress() {
   this.firstForm = new FormGroup({
