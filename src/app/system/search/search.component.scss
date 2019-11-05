@@ -1,0 +1,187 @@
+.block{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .wrap{
+        width: 160px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-wrap1{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .form-group{
+            width: 48%;
+            .inp-wrap{
+                width: 100%;
+            }
+        }
+    }
+    .form-wrap2{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .form-group{
+            width: 31%;
+            .inp-wrap{
+                width: 100%;
+            }
+        }
+    }
+}
+table {
+    width: 100%;
+    margin-top: 20px;
+    button{
+        padding: 0;
+        font-size: 10px;
+        margin: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;       
+        .mat-button-ripple{
+            display: none;
+        }
+    }
+    td{
+        font-size: 10px;
+    }
+    th{
+        font-size: 12px;
+    }
+}
+.pop-modal{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 80%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px #111;
+    padding: 30px;
+    .wrap{
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+        overflow-y: scroll;
+        .close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            margin: 0;
+        }
+        form{
+            margin: 0 auto;
+            .form-group{
+              display: flex;
+              flex-direction: column;
+              margin: 0;
+              span{
+                color: red;
+              }
+              input{
+                padding: 0 20px;
+              }
+            }
+            .pass{
+              display: flex;
+              .pass-group{
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                span{
+                  color: red;
+                }
+                input{
+                  padding: 0 20px;
+                }
+              }
+            }
+            .wrap{
+              display: flex;
+              justify-content: flex-end;
+              overflow: hidden;
+              button{
+                margin: 0 10px;
+              }
+            }       
+          }
+    } 
+}
+.mat-row{
+    cursor: pointer;
+}
+#address{
+    overflow: hidden;
+    #btn{
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        button{
+            margin: 10px;
+        }
+    }
+}
+#delete{
+    top: 30%;
+    left: 35%;
+    height: 40%;
+    width: 30%;
+    #del{
+        width: 100%;
+        overflow: hidden;
+        text-align: center;
+        .block{
+            display: flex;
+            flex-direction: row;
+            button{
+                margin: 20% 3px 0 3px;
+            }
+        }
+    }
+}
+#newAddress{
+    display: block;
+    margin: 20px auto 0 auto;
+}
+@media only screen and (max-width: 500px) {
+    .form-wrap1{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .form-group{
+            width: 100% !important;
+            .inp-wrap{
+                width: 100%;
+            }
+        }
+    }
+    .form-wrap2{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .form-group{
+            width: 100% !important;
+            .inp-wrap{
+                width: 100%;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 900px) {
+    .pass{
+        flex-direction: column;
+    }
+}

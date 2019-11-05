@@ -1,0 +1,77 @@
+.main{ 
+    .form{
+        margin: 0 auto;
+        .form-group{
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        span{
+            color: red;
+        }
+        input{
+            padding: 0 20px;
+        }
+        }
+        .pass{
+        display: flex;
+        .pass-group{
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            span{
+            color: red;
+            }
+            input{
+            padding: 0 20px;
+            }
+        }
+
+        }
+        .wrap{
+        display: flex;
+        justify-content: flex-end;
+        }
+        
+    }
+}
+
+.address{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    form{
+      margin-bottom: 40px;
+      .form-group{ 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+      width: 100%;
+        .inp-wrap{
+          width: 400px;
+          input{
+            width: 400px;
+          }
+        }
+        span{
+          color: red;
+        }
+      }
+    }
+
+    .mat-form-field {
+    width: 100%;
+    }
+
+
+    .more{
+      cursor: pointer;
+      color: cadetblue;
+    }
+    .btn{
+      width: 200px;
+      display: flex;
+      justify-content: space-between;
+    }
+}

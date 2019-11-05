@@ -1,0 +1,343 @@
+<div class="block">
+  <div class="form-wrap1">
+    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+      <mat-form-field class="example-full-width inp-wrap">
+        <input matInput type="text"  placeholder="First name:" #firstName [(ngModel)]="firstNameSearch">
+      </mat-form-field>
+    </div>
+    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+      <mat-form-field class="example-full-width inp-wrap">
+        <input matInput type="text"  placeholder="Last name:" #lastName [(ngModel)]="lastNameSearch"> 
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <div class="form-wrap2">
+    <div class="form-group col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field class="example-full-width inp-wrap">
+        <input matInput type="text"  placeholder="User name:" #userName [(ngModel)]="userNameSearch">
+      </mat-form-field>
+    </div>
+    <div class="form-group col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field class="example-full-width inp-wrap">
+        <input matInput type="text"  placeholder="Email:" #email [(ngModel)]="emailSearch">
+      </mat-form-field>
+    </div>
+    <div class="form-group col-lg-4 col-md-4 col-sm-12">
+      <mat-form-field class="example-full-width inp-wrap">
+        <input matInput type="text"  placeholder="Phone:" #phone [(ngModel)]="phoneSearch">
+      </mat-form-field>
+    </div>
+  </div>
+  
+  
+  <div class="wrap">
+    <button mat-raised-button color="basic" (click)="remove()">Clear</button> 
+    <button mat-raised-button color="primary" (click)="add( firstName.value, lastName.value, userName.value, email.value, phone.value )">Search</button> 
+  </div>
+</div>
+
+
+<table mat-table [dataSource]="mainInfo" class="mat-elevation-z8" *ngIf="count !== 0">
+
+
+  <ng-container matColumnDef="first-name">
+    <th mat-header-cell *matHeaderCellDef> First name: </th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.firstName}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="last-name">
+    <th mat-header-cell *matHeaderCellDef> Last name: </th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.lastName}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="user-name">
+    <th mat-header-cell *matHeaderCellDef> User name: </th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.userName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef> Phone: </th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.phone}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Email: </th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.email}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="update">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)">
+      <button mat-raised-button color="basic" (click)="open(element)">update</button> 
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" (click)="rowClick(element)">
+     <button mat-raised-button color="basic" (click)="delete(element)">delete</button> 
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+
+ 
+
+
+<table mat-table #table [dataSource]="mainInfo[0].address"  id="hTable" class="mat-elevation-z8"  *ngIf="addressCount !== 0">
+  <!-- Position Column -->
+  <ng-container matColumnDef="first-name">
+    <th mat-header-cell *matHeaderCellDef>Address type:</th>
+    <td mat-cell *matCellDef="let element">{{ element.type }}:</td>
+  </ng-container>
+  <!-- Name Column -->
+  <ng-container matColumnDef="last-name">
+    <th mat-header-cell *matHeaderCellDef>Country:</th>
+    <td mat-cell *matCellDef="let element">{{element.country}}</td>
+  </ng-container>
+  <!-- Weight Column -->
+  <ng-container matColumnDef="user-name">
+    <th mat-header-cell *matHeaderCellDef>City:</th>
+    <td mat-cell *matCellDef="let element">{{element.city}}</td>
+  </ng-container>
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Post code:</th>
+    <td mat-cell *matCellDef="let element">{{element.code}}</td>
+  </ng-container>
+  <ng-container matColumnDef="update">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-raised-button color="basic" (click)="openAddr(element)">update</button> 
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+     <button mat-raised-button color="basic" (click)="delAddressModal(element)">delete</button> 
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element"></td>
+  </ng-container>
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<button id="newAddress" *ngIf="addressCount !== 0" mat-raised-button color="basic" (click)="openNewAddr()">add new address</button> 
+
+
+
+
+
+
+
+
+
+
+<div class="pop-modal" *ngIf="modal === true">
+  <div class="wrap" id="main" *ngIf="mainModal === true">  
+    <form [formGroup] = "editForm" (ngSubmit)="editMainModal()">
+        <div class="form-group">
+          <label for="firstName">First name:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="firstName" type="text"  formControlName="firstName">
+          </mat-form-field>
+          <span *ngIf="editForm.get('firstName').invalid && editForm.get('firstName').touched">
+            <span *ngIf="editForm.get('firstName')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="editForm.get('firstName')['errors']['nameError']">Must start with a capital letter, no more than 15 letters long! </span>
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last name:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="lastName" type="text"  formControlName="lastName"  >
+          </mat-form-field>
+          <span *ngIf="editForm.get('lastName').invalid && editForm.get('lastName').touched">
+            <span *ngIf="editForm.get('lastName')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="editForm.get('lastName')['errors']['nameError']">Must start with a capital letter, no more than 15 letters long! </span>
+          </span>
+        </div>
+      
+        <div class="form-group">
+            <label for="userName">User name:</label>
+            <mat-form-field class="example-full-width inp-wrap">
+              <input matInput  id="userName" type="text"  formControlName="userName"  >
+            </mat-form-field>
+            <span *ngIf="editForm.get('userName').invalid && editForm.get('userName').touched">
+              <span *ngIf="editForm.get('userName')['errors']['required']">The input cannot be empty! </span>
+              <span *ngIf="editForm.get('userName')['errors']['minlength']">Min lenght 5! </span>
+              <span *ngIf="editForm.get('userName')['errors']['maxlength']">Max lenght 20! </span>
+            </span>
+          </div>
+      
+        <div class="form-group">
+          <label for="phone">Phone:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="phone" type="text"  formControlName="phone"  >
+          </mat-form-field>
+          <span *ngIf="editForm.get('phone').invalid && editForm.get('phone').touched">
+            <span *ngIf="editForm.get('phone')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="editForm.get('phone')['errors']['phoneNumberError']">Only numbers, necessarily 10 digits! </span>
+          </span>
+        </div>
+      
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+              <input matInput  id="email" type="email"  formControlName="email"  >
+            </mat-form-field>
+          <span *ngIf="editForm.get('email').invalid && editForm.get('email').touched">
+            <span *ngIf="editForm.get('email')['errors']['required']">The email cannot be empty! </span>
+            <span *ngIf="editForm.get('email')['errors']['emailError']">Wrong email address! </span>
+          </span>
+        </div>
+      
+        <div class="pass">
+          <div class="pass-group col-lg-6 col-md-6">
+            <label for="password1">Password:</label>
+            <mat-form-field class="example-full-width inp-wrap">
+                <input matInput  id="password1" type="password" [(ngModel)]="pass1"  formControlName="password1"  >
+              </mat-form-field>
+            <span *ngIf="editForm.get('password1').invalid && editForm.get('password1').touched">
+              <span *ngIf="editForm.get('password1')['errors']['required']">The password cannot be empty! </span>
+              <span *ngIf="editForm.get('password1')['errors']['minlength']">Min lenght 5! </span>
+            </span>
+          </div>
+      
+          <div class="pass-group col-lg-6  col-md-6">
+            <label for="password2">Password:</label>
+            <mat-form-field class="example-full-width inp-wrap">
+                <input matInput  id="password2" type="password"  [(ngModel)]="pass2"  formControlName="password2" >
+              </mat-form-field>
+            <span *ngIf="editForm.get('password2').invalid && editForm.get('password2').touched">
+              <span *ngIf="editForm.get('password2')['errors']['required']">The password cannot be empty! </span>
+              <span *ngIf="editForm.get('password2')['errors']['minlength']">Min lenght 5! </span>
+              <span *ngIf="editForm.get('password2')['errors']['passCheck']">Different password! </span>
+            </span>
+          </div>
+        </div>
+      
+        <div class="wrap">
+          <button mat-raised-button  type="submit" (click)="cancel()">Cancel</button>
+          <button mat-raised-button color="primary" class="bg-primary" type="submit"  [disabled]="editForm.invalid">Save</button>
+        </div>
+      </form>
+  </div>
+
+
+  <div class="wrap" id="address" *ngIf="addrModal === true">
+    <div class="address">
+      <form [formGroup] = "firstForm" id="firstForm" *ngIf="firstF === true">
+        <h2>{{ currentAddr.type }}:</h2>
+    
+        <div class="form-group">
+          <mat-form-field>
+          <mat-label>Country: </mat-label>
+          <mat-select  formControlName="country">
+            <mat-option *ngFor="let country of countries" value="{{ country.name }}">{{ country.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput type="text" formControlName="city" placeholder="City">
+          </mat-form-field>
+          <span *ngIf="firstForm.get('city').invalid && firstForm.get('city').touched">
+            <span *ngIf="firstForm.get('city')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="firstForm.get('city')['errors']['cityError']">Must start with a capital letter, no more than 15 letters long! </span>
+          </span>
+        </div>
+    
+        <div class="form-group">
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput type="number" formControlName="code" placeholder="Postal Code">
+          </mat-form-field>
+          <span *ngIf="firstForm.get('code').invalid && firstForm.get('code').touched">
+            <span *ngIf="firstForm.get('code')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="firstForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length! </span>
+          </span>
+        </div>
+      </form>
+
+
+
+
+      <form [formGroup] = "secondForm" *ngIf="secondF === true">
+        <h2>Add new address:</h2>
+        <mat-form-field>
+          <mat-select #qq formControlName="select" [(ngModel)]="sel1" (onChange)="select()" placeholder="Address type">
+            <mat-option value="hAddress">Home address</mat-option>
+            <mat-option value="sAddress">Shipping address</mat-option>
+            <mat-option value="bAddress">Billing address</mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <div class="form-group">
+          <mat-form-field>
+          <mat-label>Country: </mat-label>
+          <mat-select  formControlName="country">
+            <mat-option *ngFor="let country of countries" value="{{ country.name }}">{{ country.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput type="text" formControlName="city" placeholder="City">
+          </mat-form-field>
+          <!-- <mat-error *ngIf="city.invalid && (city.dirty || city.touched)">
+              <mat-error *ngIf="city.errors.required">Postal code is reqired!</mat-error>
+            </mat-error> -->
+          <span *ngIf="secondForm.get('city').invalid && secondForm.get('city').touched">
+            <span *ngIf="secondForm.get('city')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="secondForm.get('city')['errors']['cityError']">Must start with a capital letter, no more than 15 letters long! </span>
+          </span>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput type="number" formControlName="code" placeholder="Postal Code">
+          </mat-form-field>
+          <span *ngIf="secondForm.get('code').invalid && secondForm.get('code').touched">
+            <span *ngIf="secondForm.get('code')['errors']['required']">The input cannot be empty! </span>
+            <span *ngIf="secondForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length! </span>
+          </span>
+        </div>
+      </form>
+      <div class="btn" id="btn">
+        <button mat-raised-button (click)="closeAddrModal()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="alert()"  [disabled]="firstForm.invalid" *ngIf="firstF === true">Save</button>
+        <button mat-raised-button color="primary" (click)="ask()"  [disabled]="secondForm.invalid" *ngIf="secondF === true">Save</button>
+      </div>
+    </div>
+  </div> 
+</div>
+<div class="pop-modal" id="delete" *ngIf="del === true">
+  <div class="wrap" id="del">
+    <h4>Are you sure?</h4>
+    <div class="block">
+      <button mat-raised-button (click)="closeDelModal()">No</button>
+      <button mat-raised-button color="primary" class="edetAttr" (click)="updateAddr()" *ngIf="editAddr === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="deleteUser()" *ngIf="removeUser === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="delAddress()" *ngIf="removeAddr === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="save()" *ngIf="editUser === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="addNewAddress()" *ngIf="addNewAddr === true">Yes</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+

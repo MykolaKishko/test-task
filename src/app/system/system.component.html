@@ -1,0 +1,33 @@
+<header class="bg-primary">
+    <div class="container">
+        <div class="wrap">
+        <i class="fas fa-hamburger" (click)="slide()"></i>
+        <h1 [routerLink]="['/system', 'userInfo']">Test task</h1>
+        <button mat-raised-button routerLink="/home" class="logout" (click)="logOut()">Log out</button>
+        </div>
+    </div> 
+</header>
+<section class="content">
+    <div class="container">
+        <div class="slide" id="slide" (click)="hideSlide()">
+            <ul>
+                    <li routerLinkActive="active" [routerLink] = "['/system', 'userInfo']">Home</li>
+                    <li routerLinkActive="active" [routerLink] = "['/system', 'search']">Search</li>
+                    <li routerLinkActive="active" [routerLink] = "['/system', 'createUser']">Create user</li>
+                </ul>
+        </div>
+        <div class="sidebar col-lg-3 col-md-4 col-sm-4">
+            <ul>
+                <li routerLinkActive="active" [routerLink] = "['/system', 'userInfo']">Home</li>
+                <li routerLinkActive="active" [routerLink] = "['/system', 'search']">Search</li>
+                <li routerLinkActive="active" [routerLink] = "['/system', 'createUser']">Create user</li>
+            </ul>
+        </div>
+        <div class="main-content col-lg-9 col-md-7">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</section>
+<footer class="bg-primary">
+    <p> Completed by Mykola Kishko - Lviv 2019</p>
+</footer>

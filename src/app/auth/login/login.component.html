@@ -1,0 +1,30 @@
+<div class="wrap">
+  <div class="login-card">
+    <form [formGroup] = "form" (ngSubmit)="logIn()">
+      <i class="fas fa-user-tie"></i>
+      <div class="form-group">
+        <label for="userName">User name:</label>
+        <mat-form-field class="example-full-width inp-wrap">
+          <input matInput  id="userName" type="text" class="form-control" formControlName="userName">
+        </mat-form-field>
+        <span *ngIf="form.get('userName').invalid && form.get('userName').touched">
+          <span *ngIf="form.get('userName')['errors']['required']">The mall cannot be empty! </span>
+          <span *ngIf="form.get('userName')['errors']['minlength']">Minimum characters 5! </span>
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="pass">Password:</label>
+        <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="password" type="password" class="form-control" formControlName="password">
+          </mat-form-field>
+        <span *ngIf="form.get('password').invalid && form.get('userName').touched">
+          <span *ngIf="form.get('password')['errors']['required']">The mall cannot be empty! </span>
+          <span *ngIf="form.get('password')['errors']['minlength']">Minimum characters 5! </span>
+        </span>
+      </div>
+      <button mat-raised-button color="primary" type="submit"   [disabled]="form.invalid">Log in</button> 
+      <span>{{ message }}</span>
+     
+    </form>
+  </div>
+</div>
