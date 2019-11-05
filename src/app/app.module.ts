@@ -21,10 +21,7 @@ import { AppComponent } from './app.component';
     AuthModule,
     SystemModule,
     HttpClientModule,
-    MaterialModule,
-    NgxsModule.forRoot([
-      ZooState
-    ])
+    MaterialModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
