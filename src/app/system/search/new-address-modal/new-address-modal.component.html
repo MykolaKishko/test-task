@@ -1,0 +1,48 @@
+<div class="pop-modal">
+  <div class="wrap" id="address">
+    <div class="address">  
+      <form [formGroup] = "secondForm">
+        <h2>Add new address:</h2>
+        <mat-form-field>
+          <mat-select #qq formControlName="select" [(ngModel)]="sel1" (onChange)="select()" placeholder="Address type">
+            <mat-option value="hAddress">Home address</mat-option>
+            <mat-option value="sAddress">Shipping address</mat-option>
+            <mat-option value="bAddress">Billing address</mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <div class="form-group">
+          <mat-form-field>
+          <mat-label>Country: </mat-label>
+          <mat-select  formControlName="country">
+            <mat-option *ngFor="let country of countries" value="{{ country.name }}">{{ country.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+    
+        <div class="form-group">
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput type="text" formControlName="city" placeholder="City">
+          </mat-form-field>
+          <mat-error *ngIf="secondForm.get('city').invalid && secondForm.get('city').touched">
+            <mat-error *ngIf="secondForm.get('city')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="secondForm.get('city')['errors']['cityError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
+          </mat-error> 
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput type="number" formControlName="code" placeholder="Postal Code">
+          </mat-form-field>
+          <mat-error *ngIf="secondForm.get('code').invalid && secondForm.get('code').touched">
+            <mat-error *ngIf="secondForm.get('code')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="secondForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length!</mat-error>
+          </mat-error>  
+        </div>
+      </form>
+      <div class="btn" id="btn">
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" (click)="openAskModal()"  [disabled]="secondForm.invalid">Save</button>
+      </div>
+    </div>
+  </div> 
+</div>

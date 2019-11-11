@@ -1,0 +1,50 @@
+<div class="pop-modal">
+        <div class="wrap" id="address">
+                <div class="address">
+                  <form [formGroup] = "firstForm" id="firstForm">
+                    <h2>Edit Address:</h2>    
+                    <div class="form-group">
+                      <mat-form-field>
+                        <mat-label>Country: </mat-label>
+                        <mat-select  formControlName="country">
+                          <mat-option *ngFor="let country of countries" value="{{ country.name }}">{{ country.name }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width inp-wrap">
+                        <input matInput type="text" formControlName="city" placeholder="City">
+                      </mat-form-field>
+                      <mat-error *ngIf="firstForm.get('city').invalid && firstForm.get('city').touched">
+                        <mat-error *ngIf="firstForm.get('city')['errors']['required']">The input cannot be empty!</mat-error>
+                        <mat-error *ngIf="firstForm.get('city')['errors']['cityError']">Only numbers, 5 characters in length!</mat-error>
+                      </mat-error> 
+                    </div>
+                
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width inp-wrap">
+                        <input matInput type="number" formControlName="code" placeholder="Postal Code">
+                      </mat-form-field>
+                      <mat-error *ngIf="firstForm.get('code').invalid && firstForm.get('code').touched">
+                        <mat-error *ngIf="firstForm.get('code')['errors']['required']">The input cannot be empty!</mat-error>
+                        <mat-error *ngIf="firstForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length!</mat-error>
+                      </mat-error> 
+                    </div>
+                  </form>
+                  
+                  <div class="btn" id="btn">
+                    <button mat-raised-button (click)="closeAddrModal()">Cancel</button>
+                    <button mat-raised-button color="primary" (click)="openAskModal()"  [disabled]="firstForm.invalid">Save</button>
+                  </div>
+                </div>
+              </div> 
+
+
+
+
+
+
+
+
+</div>

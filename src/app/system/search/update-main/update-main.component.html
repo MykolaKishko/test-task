@@ -1,0 +1,90 @@
+<div class="pop-modal">
+  <div class="wrap" id="main">  
+    <form [formGroup] = "editForm" (ngSubmit)="openAskModal()">
+        <div class="form-group">
+          <label for="firstName">First name:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="firstName" type="text"  formControlName="firstName">
+          </mat-form-field>
+          <mat-error *ngIf="editForm.get('firstName').invalid && editForm.get('firstName').touched">
+            <mat-error *ngIf="editForm.get('firstName')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="editForm.get('firstName')['errors']['nameError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
+          </mat-error>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last name:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="lastName" type="text"  formControlName="lastName">
+          </mat-form-field>
+          <mat-error *ngIf="editForm.get('lastName').invalid && editForm.get('lastName').touched">
+            <mat-error *ngIf="editForm.get('lastName')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="editForm.get('lastName')['errors']['nameError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
+          </mat-error>
+        </div>
+      
+        <div class="form-group">
+            <label for="userName">User name:</label>
+            <mat-form-field class="example-full-width inp-wrap">
+              <input matInput  id="userName" type="text"  formControlName="userName"  >
+            </mat-form-field>
+            <mat-error *ngIf="editForm.get('userName').invalid && editForm.get('userName').touched">
+              <mat-error *ngIf="editForm.get('userName')['errors']['required']">The input cannot be empty!</mat-error>
+              <mat-error *ngIf="editForm.get('userName')['errors']['minlength']">Min lenght 5!</mat-error>
+              <mat-error *ngIf="editForm.get('userName')['errors']['maxlength']">Max lenght 20!</mat-error>
+            </mat-error>
+          </div>
+      
+        <div class="form-group">
+          <label for="phone">Phone:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="phone" type="text"  formControlName="phone"  >
+          </mat-form-field>
+          <mat-error *ngIf="editForm.get('phone').invalid && editForm.get('phone').touched">
+            <mat-error *ngIf="editForm.get('phone')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="editForm.get('phone')['errors']['phoneNumberError']">Only numbers, necessarily 10 digits!</mat-error>
+          </mat-error>
+        </div>
+      
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <mat-form-field class="example-full-width inp-wrap">
+            <input matInput  id="email" type="email"  formControlName="email"  >
+          </mat-form-field>
+          <mat-error *ngIf="editForm.get('email').invalid && editForm.get('email').touched">
+            <mat-error *ngIf="editForm.get('email')['errors']['required']">The email cannot be empty!</mat-error>
+            <mat-error *ngIf="editForm.get('email')['errors']['emailError']">Wrong email address!</mat-error>
+          </mat-error>
+        </div>
+      
+        <div class="pass">
+          <div class="pass-group col-lg-6 col-md-6">
+            <label for="password1">Password:</label>
+            <mat-form-field class="example-full-width inp-wrap">
+              <input matInput  id="password1" type="password" [(ngModel)]="pass1"  formControlName="password1"  >
+            </mat-form-field>
+            <mat-error *ngIf="editForm.get('password1').invalid && editForm.get('password1').touched">
+              <mat-error *ngIf="editForm.get('password1')['errors']['required']">The password cannot be empty!</mat-error>
+              <mat-error *ngIf="editForm.get('password1')['errors']['minlength']">Min lenght 5!</mat-error>
+            </mat-error> 
+          </div>
+      
+          <div class="pass-group col-lg-6  col-md-6">
+            <label for="password2">Password:</label>
+            <mat-form-field class="example-full-width inp-wrap">
+              <input matInput  id="password" type="password"  [(ngModel)]="pass2"  formControlName="password" >
+            </mat-form-field>
+            <mat-error *ngIf="editForm.get('password').invalid && editForm.get('password').touched">
+              <mat-error *ngIf="editForm.get('password')['errors']['required']">The password cannot be empty!</mat-error>
+              <mat-error *ngIf="editForm.get('password')['errors']['minlength']">Min lenght 5!</mat-error>
+              <mat-error *ngIf="editForm.get('password')['errors']['passCheck']">Different password!</mat-error>
+            </mat-error> 
+          </div>
+        </div>
+      
+        <div class="wrap">
+          <button mat-raised-button mat-dialog-close type="submit">Cancel</button>
+          <button mat-raised-button color="primary" class="bg-primary" type="submit"  [disabled]="editForm.invalid">Save</button>
+        </div>
+      </form>
+  </div>
+</div>

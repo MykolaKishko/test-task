@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { GlobalService } from 'src/app/global.service';
-import { Router } from '@angular/router';
-import {
-  firstNameValidator,
-  lastNameValidator,
-  emailValidator,
-  phoneNumberValidator,
-  passwordValidator,
-  cityValidator,
-  codeValidator
-} from '../create-user/validator';
+import { UpdateMainComponent } from './update-main/update-main.component';
+import { UpdateAddressComponent } from './update-address/update-address.component';
+import { MatDialog, MatTable } from '@angular/material';
+import { AskModalComponent } from './ask-modal/ask-modal.component';
+import { Users } from 'src/app/users';
+import { NewAddressModalComponent } from './new-address-modal/new-address-modal.component';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 
 @Component({
@@ -19,7 +17,49 @@ import {
   styleUrls: ['./search.component.scss']
 })
 
+
+
 export class SearchComponent implements OnInit {
+
+   obj = {
+    firstName: 'admin',
+    lastName: 'admin',
+    userName: 'admin',
+    phone: '0505934900',
+    email: 'mykola221@gmail.com',
+    password: '000000',
+    address: [
+      {
+        type: 'Home address',
+        country: 'Ukraine',
+        city: 'Lviv',
+        code: 45654,
+        id: 1
+      },
+      {
+        type: 'Shipping address',
+        country: 'Ukraine',
+        city: 'Lviv',
+        code: 45654,
+        id: 2
+      },
+      {
+        type: 'Billing address',
+        country: 'Ukraine',
+        city: 'Herson',
+        code: 45654,
+        id: 3
+      }
+    ]
+  };
+
+  x: any;
+
+
+  ussers: any;
+  arr: any;
+
+  @ViewChild('table') table: MatTable<Users[]>;
 
   displayedColumns: string[] = ['first-name', 'last-name', 'user-name', 'phone', 'email', 'update', 'delete'];
   form: FormGroup;
@@ -27,339 +67,424 @@ export class SearchComponent implements OnInit {
   firstForm: FormGroup;
   secondForm: FormGroup;
 
+  response: any;
+
   users = this.globalService.users;
   firstNameSearch = '';
   lastNameSearch = '';
   userNameSearch = '';
   phoneSearch = '';
   emailSearch = '';
-
+  countries: any;
   count = 0;
   addressCount = 0;
-  modal = false;
-  mainModal = false;
-  addrModal = false;
-  countries: any;
-  element: any;
-  mainInfo = [];
-  addressInfo = [];
-  currentAddr: any;
-  address: any;
-  del = false;
-  editUser = false;
-  editAddr = false;
-  removeUser = false;
-  removeAddr = false;
-  firstF = false;
-  secondF = false;
-  addNewAddr = false;
-  currentValue = [];
+
+  deleteUser = this.globalService.deleteUser;
+  deleteAddress = this.globalService.deleteAddress;
+
+  currentAddr = this.globalService.currentAddr;
+  currentUser = this.globalService.currentUser;
+  address = this.globalService.address;
+  currentValue = this.globalService.currentValue;
+  element = this.globalService.element;
+  mainInfo = this.globalService.mainInfo;
+  addressInfo = this.globalService.addressInfo;
 
   constructor(
-      private globalService: GlobalService,
-      private router: Router,
-
-    ) { }
+    private globalService: GlobalService,
+    public dialog: MatDialog,
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.modal = false;
-    this.count = 0;
+    this.count = 1;
     this.addressCount = 0;
     this.getCountry();
-
-    this.secondForm = new FormGroup({
-      select: new FormControl('', [Validators.required]),
-      country: new FormControl('',  [Validators.required]),
-      city: new FormControl('', [Validators.required, cityValidator]),
-      code: new FormControl('', [Validators.required, codeValidator])
+    this.authService.getUsers().subscribe( res => {
+      this.users.push(res);
+      this.mainInfo.push(res);
     });
   }
-  rowClick(elem: any) {
+
+
+
+  remove() {
+    this.count = 0;
+    this.addressCount = 0;
+    this.mainInfo = [];
+  }
+
+  // remove() {
+
+    ///////////////  GET USER   ////////////////
+
+    // this.http.get('http://localhost:5000/app/main').subscribe( users => {
+    //   this.ussers = users;
+    //   if (!!this.ussers) {
+    //     console.log(this.ussers);
+    //   }
+    // });
+
+    //   this.http.delete('http://localhost:3000/users/1').subscribe( users => {
+    //   this.ussers = users;
+    //   if (!!this.ussers) {
+    //     console.log(this.ussers);
+    //   }
+    // });
+
+      // const obj1 = {
+      //   firstName: 'admin',
+      //   lastName: 'admin',
+      //   userName: 'admin',
+      //   phone: '0505934900',
+      //   email: 'mykola221@gmail.com',
+      //   password: '000000',
+      //   address: [
+      //     {
+      //       type: 'Home address',
+      //       country: 'Ukraine',
+      //       city: 'Lviv',
+      //       code: 45654,
+      //       id: 1
+      //     },
+      //     {
+      //       type: 'Shipping address',
+      //       country: 'Ukraine',
+      //       city: 'Lviv',
+      //       code: 45654,
+      //       id: 2
+      //     },
+      //     {
+      //       type: 'Billing address',
+      //       country: 'Ukraine',
+      //       city: 'Herson',
+      //       code: 45654,
+      //       id: 3
+      //     }
+      //   ]
+      // };
+    //   this.http.post( 'http://localhost:3000/users', obj ).subscribe( users => {
+    //   this.ussers = users;
+    //   console.log(this.ussers);
+    // });
+
+
+      // this.authService.addNewUser(obj).subscribe( user => {
+      //   const users = user;
+      //   console.log(users);
+      // });
+
+
+
+    //////////////   ADD USER   ////////////////////
+
+    // const obj = {
+    //   firstName: 'adminq',
+    //   lastName: 'admin',
+    //   userName: 'admin',
+    //   phone: '4568745210',
+    //   email: 'ac672169@gmail.com',
+    //   password: '000000',
+    //   address: [
+    //     {
+    //       id: 2,
+    //       addressType: 'Home address',
+    //       country: 'Ukraine',
+    //       city: 'Lviv',
+    //       code: 44456
+    //     }
+    //   ]
+    // };
+    // this.http.post( 'http://localhost:5000/app/users', obj ).subscribe( users => {
+    //   this.ussers = users;
+    //   console.log(this.ussers);
+    // });
+
+    /////////////// EDIT USER //////////////////////
+
+    // const obj = {
+    //   firstName: 'adminn',
+    //   lastName: 'admin',
+    //   userName: 'admin',
+    //   phone: '4568745210',
+    //   email: 'ac672169@gmail.com',
+    //   password: '000000',
+    //   address: [
+    //     {
+    //       id: 10,
+    //       addressType: 'Home address',
+    //       country: 'Ukraine',
+    //       city: 'Lviv',
+    //       code: 44456
+    //     }
+    //   ]
+    // };
+    // this.http.put( 'http://localhost:5000/app/update/5dc9194a7326452104a1a1b7', obj ).subscribe( users => {
+    //   this.ussers = users;
+    //   console.log(this.ussers);
+    // });
+
+
+    ///////////////// ADD ADDRESS /////////////////////
+
+    // const obj = {
+    //   addressType: 'Home address',
+    //   country: 'Ukraine',
+    //   city: 'Lviv',
+    //   code: 44456,
+    //   id: 2
+    // };
+    // this.http.put( 'http://localhost:5000/app/add-address/5dc9194a7326452104a1a1b7', obj ).subscribe( users => {
+    //   this.ussers = users;
+    //   console.log(this.ussers);
+    // });
+
+
+    ///////////////   DELETE USER   /////////////////
+
+    // this.http.delete('http://localhost:3000/users/3').subscribe( users => {
+    // this.ussers = users;
+    // if (!!this.ussers) {
+    //   console.log(this.ussers);
+    //   }
+    // });
+
+
+
+    //////////////////////////////// DELETE USER /////////////////////////
+
+    // this.authService.deleteUser(2).subscribe( users => {
+    //   let user = users;
+    //   if (!!user) {
+    //     console.log(user);
+    //   }
+    // });
+
+    ///////////////////////////// ADD USER //////////////////////////////
+
+      // this.authService.addNewUser(obj).subscribe( user => {
+      //   const users = user;
+      //   console.log(users);
+      // });
+
+      ////////////////////////////    delete ADDRESS   //////////////////////////
+      // let addr = {
+      //   type: 'vvkhk',
+      //   id: 20,
+      //   country: 'kbligivu',
+      //   city: 'Gkljbkl',
+      //   code:  88888
+      // };
+
+      // this.authService.editAddress(1, 1, addr);
+// }
+
+openMainModal(element: any) {
+  event.stopPropagation();
+  this.currentValue.shift();
+  this.currentValue.push(element);
+  this.dialog.open(UpdateMainComponent);
+}
+openAddressModal(element: any) {
+    this.currentAddr.shift();
+    this.currentAddr.push(element);
+    this.currentValue.shift();
+    this.currentValue.push(this.currentUser[0]);
+    this.dialog.open(UpdateAddressComponent);
+  }
+newAddressModal() {
+    this.dialog.open(NewAddressModalComponent);
+  }
+rowClick(elem: any) {
     this.addressInfo = this.mainInfo;
+    this.currentUser.shift();
+    this.currentUser.push(elem);
     if (this.addressCount === 0) {
       this.addressCount = 1;
     } else if (this.addressCount === 1) {
       this.addressCount = 0;
     }
   }
-  close() {
-    this.modal = !this.modal;
-  }
-  closeAddrModal() {
-    this.modal = false;
-    this.addrModal = false;
-  }
-  closeDelModal() {
-    this.del = false;
-    this.removeUser = false;
-    this.editAddr = false;
-  }
-  cancel() {
-    this.modal = false;
-    this.mainModal = false;
-  }
-  editMainModal() {
-    this.del = true;
-    this.editUser = true;
-  }
-  save() {
-    this.users.forEach((el, i) => {
-      if (el.firstName === this.element.firstName) {
-        el.firstName = this.editForm.controls.firstName.value;
-        el.lastName = this.editForm.controls.lastName.value;
-        el.userName = this.editForm.controls.userName.value;
-        el.email = this.editForm.controls.email.value;
-        el.phone = this.editForm.controls.phone.value;
-      }
-    });
-    this.modal = false;
-    this.mainModal = false;
-    this.del = false;
-    this.editUser = false;
-  }
-  open(element: any) {
-    event.stopPropagation();
-    this.currentValue.shift();
-    this.currentValue.push(this.mainInfo[0]);
-    console.log(this.currentValue)
-    this.modal = true;
-    this.element = element;
-    this.mainModal = true;
-    this.editForm = new FormGroup({
-      firstName: new FormControl(this.currentValue[0].firstName, [Validators.required, firstNameValidator]),
-      lastName: new FormControl(this.currentValue[0].lastName, [Validators.required,  lastNameValidator]),
-      userName: new FormControl(this.currentValue[0].userName, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
-      email: new FormControl(this.currentValue[0].email, [Validators.required, emailValidator]),
-      phone: new FormControl(this.currentValue[0].phone, [Validators.required,  phoneNumberValidator]),
-      password1: new FormControl(this.currentValue[0].password, [Validators.required, Validators.minLength(5)]),
-      password2: new FormControl(this.currentValue[0].password, [Validators.required, Validators.minLength(5), passwordValidator])
-    });
-  }
-  openAddr(element: any){
-    this.modal = true;
-    this.addrModal = true;
-    this.currentAddr = element;
-    this.firstF = true;
-    this.secondF = false;
-    this.firstForm = new FormGroup({
-      country: new FormControl( this.currentAddr.country,  [Validators.required]),
-      city: new FormControl( this.currentAddr.city, [Validators.required, cityValidator]),
-      code: new FormControl( this.currentAddr.code, [Validators.required, codeValidator])
-    });
-  }
-  openNewAddr() {
-    this.modal = true;
-    this.addrModal = true;
-    this.secondF = true;
-    this.firstF = false;
-  }
-  ask() {
-    this.addNewAddr = true;
-    this.del = true;
-  }
-  addNewAddress() {
-    let newUser = [{
-      address: []
-    }];
-    var obj;
+addNewAddress() {
+    const obj = {
+      type: '',
+      country: this.secondForm.controls.country.value,
+      city: this.secondForm.controls.city.value,
+      code: this.secondForm.controls.code.value,
+      id: this.mainInfo[0].address.length + 1
+    };
     if (this.secondForm.valid) {
       if (this.secondForm.controls.select.value === 'hAddress') {
-        obj = {
-          type: 'Home address',
-          country: this.secondForm.controls.country.value,
-          city: this.secondForm.controls.city.value,
-          code: this.secondForm.controls.code.value,
-          id: this.mainInfo[0].address.length + 1
-        };
+        obj.type = 'Home address';
       }
       if (this.secondForm.controls.select.value === 'sAddress') {
-        obj = {
-          type: 'Shipping address',
-          country: this.secondForm.controls.country.value,
-          city: this.secondForm.controls.city.value,
-          code: this.secondForm.controls.code.value,
-          id: this.mainInfo[0].address.length + 1
-        };
+        obj.type = 'Shipping address';
       }
       if (this.secondForm.controls.select.value === 'bAddress') {
-        obj = {
-          type: 'Billing address',
-          country: this.secondForm.controls.country.value,
-          city: this.secondForm.controls.city.value,
-          code: this.secondForm.controls.code.value,
-          id: this.mainInfo[0].address.length + 1
-        };
+        obj.type = 'Billing address';
       }
     }
-    this.users.forEach((elem, index) => {
-      if (elem.userName === this.mainInfo[0].userName) {
-        this.users[index].address.push(obj);
+    this.users.forEach((user, i) => {
+      if (user.userName === this.mainInfo[0].userName) {
+        this.users[i].address.push(obj);
       }
     });
-    this.del = false;
-    this.addNewAddr = false;
-    this.modal = false;
-    this.addrModal = false;
-    this.addressCount = 0;
   }
-  delete(element: any) {
-    this.del = true;
-    this.removeUser = true;
+  openAskModal(element: any) {
+    this.currentUser.shift();
+    this.currentUser.push(element)
     event.stopPropagation();
+    this.dialog.open(AskModalComponent);
+    this.deleteUser.shift();
+    this.deleteUser.push(true);
   }
-  deleteUser() {
-    console.log(this.mainInfo);
-    this.removeUser = false;
-    this.del = false;
-    this.count = 0;
-    this.addressCount = 0;
-    this.users.forEach((el, i) => {
-      if (el.firstName === this.mainInfo[0].firstName) {
-        this.users.splice(i, 1);
-        console.log(this.users);
-        this.mainInfo = [];
-        this.removeUser = false;
-        this.del = false;
-      }
-    });
+delAddressModal(element: any) {
+    this.currentAddr.shift();
+    this.currentAddr.push(element);
+    event.stopPropagation();
+    this.dialog.open(AskModalComponent);
+    this.deleteAddress.shift();
+    this.deleteAddress.push(true);
   }
-  add(firstName: any, lastName: any, userName: any, email: any, phone: any) {
-    // let search = [firstName, lastName, userName, email, phone];
-    // let searchParam = [];
-    // search.forEach((elem, index) => {
-    //   if (elem !== '') {
-    //     searchParam.push(elem);
-    //   }
-    // });
-    // console.log(searchParam)
-    // console.log(this.mainInfo)
-    // searchParam.forEach((elem, index) => {
-    //   if (this.mainInfo[0] === undefined) {
-    //     this.users.filter( e => {
-    //       if (e.firstName.includes(elem)) {
-    //         let arr = [];
-    //         arr.push(e);
-    //         this.mainInfo = arr;
-    //         console.log(this.mainInfo);
-    //       }
-    //     });
-    //   }
-    //   // if (this.mainInfo[0] !== undefined) {
-    //   //   this.mainInfo.filter( e => {
-
-    //   //   });
-    //   // }
-    //   this.count = 1;
-    // });
-
+add(firstName: any, lastName: any, userName: any, email: any, phone: any, refresh: any, table: any, secondTable: any) {
     if (this.firstNameSearch !== '') {
+      this.mainInfo = [];
       this.count = 1;
-      this.users.filter( e => {
-        if (e.firstName.includes(this.firstNameSearch)) {
-          let arr = [];
-          arr.push(e);
-          this.mainInfo = arr;
+      this.users.filter( user => {
+        if (user.firstName.toLowerCase().includes(this.firstNameSearch.toLowerCase())) {
+          this.mainInfo.push(user);
+          this.table.renderRows();
         }
       });
     }
-
     if (this.lastNameSearch !== '') {
+      this.mainInfo = [];
       this.count = 1;
-      this.users.filter( e => {
-        if (e.lastName.includes(this.lastNameSearch)) {
-          let arr = []
-          arr.push(e);
-          this.mainInfo = arr;
+      this.users.filter( user => {
+        if (user.lastName.toLowerCase().includes(this.lastNameSearch.toLowerCase())) {
+          this.mainInfo.push(user);
+          this.table.renderRows();
         }
       });
     }
     if (this.userNameSearch !== '') {
+      this.mainInfo = [];
       this.count = 1;
-      this.users.filter( e => {
-        if (e.userName.includes(this.userNameSearch)) {
-          let arr = []
-          arr.push(e);
-          this.mainInfo = arr;
+      this.users.filter( user => {
+        if (user.userName.toLowerCase().includes(this.userNameSearch.toLowerCase())) {
+          this.mainInfo.push(user);
+          this.table.renderRows();
         }
       });
     }
     if (this.emailSearch !== '') {
+      this.mainInfo = [];
       this.count = 1;
-      this.users.filter( e => {
-        if (e.email.includes(this.emailSearch)) {
-          let arr = []
-          arr.push(e);
-          this.mainInfo = arr;
+      this.users.filter( user => {
+        if (user.email.toLowerCase().includes(this.emailSearch.toLowerCase())) {
+          this.mainInfo.push(user);
+          this.table.renderRows();
         }
       });
     }
     if (this.phoneSearch !== '') {
+      this.mainInfo = [];
       this.count = 1;
-      this.users.filter( e => {
-        if (e.phone.includes(this.phoneSearch)) {
-          let arr = []
-          arr.push(e);
-          this.mainInfo = arr;
+      this.users.filter( user => {
+        if (user.phone.toLowerCase().includes(this.phoneSearch.toLowerCase())) {
+          this.mainInfo.push(user);
+          this.table.renderRows();
         }
       });
     }
     this.addressCount = 0;
   }
-  remove() {
-    this.count = 0;
-    this.addressCount = 0;
-    this.mainInfo = [];
-  }
-  getCountry(): void {
+
+getCountry(): void {
   this.globalService.getCountries().subscribe(
     countries => this.countries = countries,
       err => err
     );
   }
-  alert() {
-    this.del = true;
-    this.removeUser = false;
-    this.editAddr = true;
-  }
-  delAddressModal(element: any) {
-    this.del = true;
-    this.removeAddr = true;
-    this.address = element;
-  }
-  delAddress() {
-    this.del = false;
-    this.removeAddr = false;
-    this.users.forEach((elem, index) => {
-      if (this.addressInfo[0].firstName === elem.firstName) {
-        this.users[index].address.forEach(( e, i: number ) => {
-          if (e.id === this.address.id) {
-            this.users[index].address.splice(i, 1);
-          }
-        });
-      }
-    });
-    document.getElementById('hTable').style.display = 'none';
-    this.addressCount = 0;
-  }
-
-  updateAddr() {
-    this.users.forEach( (elem, index) => {
-      if (this.addressInfo[0].firstName === elem.firstName) {
-        this.users[index].address.forEach(( e, i: number ) => {
-          if (e.id === this.currentAddr.id) {
-            e.type = this.currentAddr.type;
-            e.country = this.firstForm.controls.country.value;
-            e.city =  this.firstForm.controls.city.value;
-            e.code = this.firstForm.controls.code.value;
-          }
-        });
-      }
-    });
-    this.modal = false;
-    this.addrModal = false;
-    this.del = false;
-    this.removeUser = false;
-    this.editAddr = false;
-  }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// add(firstName: any, lastName: any, userName: any, email: any, phone: any, refresh: any, table: any, secondTable: any) {
+
+//   let search = [firstName, lastName, userName, email, phone];
+//   let searchParam = [];
+//   search.forEach((param, index) => {
+//     if (param !== '') {
+//       searchParam.push(param);
+//     }
+//   });
+//   console.log(searchParam)
+//   console.log(this.mainInfo)
+//   searchParam.forEach((param, index) => {
+//     if (this.mainInfo[0] === undefined) {
+//       this.users.filter( user => {
+//         if (user.firstName.includes(param)) {
+//           this.mainInfo.push(user);
+//           console.log(this.mainInfo);
+//         }
+//       });
+//     }
+//     // if (this.mainInfo[0] !== undefined) {
+//     //   this.mainInfo.filter( e => {
+
+//     //   });
+//     // }
+//     this.count = 1;
+//   });
+//   this.addressCount = 0;
+//   this.table.renderRows();
+// }

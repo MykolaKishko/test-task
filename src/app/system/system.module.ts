@@ -10,6 +10,10 @@ import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { UpdateMainComponent } from './search/update-main/update-main.component';
+import { UpdateAddressComponent } from './search/update-address/update-address.component';
+import { AskModalComponent } from './search/ask-modal/ask-modal.component';
+import { NewAddressModalComponent } from './search/new-address-modal/new-address-modal.component';
 
 @NgModule({
     imports: [
@@ -27,7 +31,11 @@ import { CreateUserComponent } from './create-user/create-user.component';
         UserInfoComponent,
         SearchComponent,
         SystemComponent,
-        CreateUserComponent
+        CreateUserComponent,
+        UpdateMainComponent,
+        UpdateAddressComponent,
+        AskModalComponent,
+        NewAddressModalComponent
     ]
 })
 

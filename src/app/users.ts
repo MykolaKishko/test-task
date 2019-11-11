@@ -13,7 +13,7 @@ export class Users {
     phone: string;
     email: string;
     password: string;
-    address: Address[] = [];
+    address: Address[];
 }
 
 export class NewUser {
@@ -23,5 +23,5 @@ export class NewUser {
     phone: string;
     email: string;
     password: string;
-    address: Address[] = [];
+    address: Address[];
 }

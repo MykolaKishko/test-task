@@ -9,12 +9,12 @@
 </header>
 <section class="content">
     <div class="container">
-        <div class="slide" id="slide" (click)="hideSlide()">
+        <div class="slide" id="slide" (click)="hideSlide()" *ngIf="show === true">
             <ul>
-                    <li routerLinkActive="active" [routerLink] = "['/system', 'userInfo']">Home</li>
-                    <li routerLinkActive="active" [routerLink] = "['/system', 'search']">Search</li>
-                    <li routerLinkActive="active" [routerLink] = "['/system', 'createUser']">Create user</li>
-                </ul>
+                <li routerLinkActive="active" [routerLink] = "['/system', 'userInfo']">Home</li>
+                <li routerLinkActive="active" [routerLink] = "['/system', 'search']">Search</li>
+                <li routerLinkActive="active" [routerLink] = "['/system', 'createUser']">Create user</li>
+            </ul>
         </div>
         <div class="sidebar col-lg-3 col-md-4 col-sm-4">
             <ul>

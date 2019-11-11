@@ -1,0 +1,13 @@
+<div class="pop-modal" id="delete">
+  <div class="wrap" id="del">
+    <h4>Are you sure?</h4>
+    <div class="block">
+      <button mat-raised-button mat-dialog-close >No</button>
+      <button mat-raised-button color="primary" class="edetAttr" (click)="updateAddr()" *ngIf="editAddress[0] === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="removeUser()" *ngIf="deleteUser[0] === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="removeAddress()" *ngIf="deleteAddress[0] === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="editMain()" *ngIf="editUser[0] === true">Yes</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="addNewAddr()" *ngIf="addNewAddress[0] === true">Yes</button>
+    </div>
+  </div>
+</div>

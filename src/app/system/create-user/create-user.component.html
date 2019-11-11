@@ -1,5 +1,5 @@
 <div class="main" *ngIf="main === true">
-  <form class="form" [formGroup] = "form" (ngSubmit)="nextStep()">
+  <form class="form" [formGroup] = "form" (ngSubmit)="next()">
     <div class="form-group">
       <label for="firstName">First name:</label>
       <mat-form-field class="example-full-width inp-wrap">
@@ -20,19 +20,17 @@
         <mat-error *ngIf="form.get('lastName')['errors']['nameError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
       </mat-error>
     </div>
-
     <div class="form-group">
-        <label for="userName">User name:</label>
-        <mat-form-field class="example-full-width inp-wrap">
-          <input matInput  id="userName" type="text"  formControlName="userName">
-        </mat-form-field>
-        <mat-error *ngIf="form.get('userName').invalid && form.get('userName').touched">
-          <mat-error *ngIf="form.get('userName')['errors']['required']">The input cannot be empty!</mat-error>
-          <mat-error *ngIf="form.get('userName')['errors']['minlength']">Min lenght 5!</mat-error>
-          <mat-error *ngIf="form.get('userName')['errors']['maxlength']">Max lenght 20!</mat-error>
-        </mat-error>
-      </div>
-
+      <label for="userName">User name:</label>
+      <mat-form-field class="example-full-width inp-wrap">
+        <input matInput  id="userName" type="text"  formControlName="userName">
+      </mat-form-field>
+      <mat-error *ngIf="form.get('userName').invalid && form.get('userName').touched">
+        <mat-error *ngIf="form.get('userName')['errors']['required']">The input cannot be empty!</mat-error>
+        <mat-error *ngIf="form.get('userName')['errors']['minlength']">Min lenght 5!</mat-error>
+        <mat-error *ngIf="form.get('userName')['errors']['maxlength']">Max lenght 20!</mat-error>
+      </mat-error>
+    </div>
     <div class="form-group">
       <label for="phone">Phone:</label>
       <mat-form-field class="example-full-width inp-wrap">
@@ -43,7 +41,6 @@
         <mat-error *ngIf="form.get('phone')['errors']['phoneNumberError']">Only numbers, necessarily 10 digits!</mat-error>
       </mat-error>
     </div>
-
     <div class="form-group">
       <label for="email">Email:</label>
       <mat-form-field class="example-full-width inp-wrap">
@@ -86,7 +83,6 @@
 </div>
 
 <div class="address" *ngIf="address === true">
-  
   <form [formGroup] = "firstForm">
     <mat-form-field>
       <mat-select #qq formControlName="select" [(ngModel)]="sel1" (onChange)="select()" placeholder="Address type">
@@ -95,7 +91,6 @@
         <mat-option value="bAddress">Billing address</mat-option>
       </mat-select>
     </mat-form-field>
-
     <div class="form-group">
       <mat-form-field>
       <mat-label>Country: </mat-label>
@@ -104,7 +99,6 @@
       </mat-select>
     </mat-form-field>
     </div>
-
     <div class="form-group">
       <mat-form-field class="example-full-width inp-wrap">
         <input matInput type="text" formControlName="city" placeholder="City">
@@ -114,7 +108,6 @@
           <mat-error *ngIf="firstForm.get('city')['errors']['cityError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
       </mat-error>
     </div>
-
     <div class="form-group">
       <mat-form-field class="example-full-width inp-wrap">
         <input matInput type="number" formControlName="code" placeholder="Postal Code">
@@ -125,15 +118,11 @@
     </mat-error>    
     </div>
   </form>
-
-
-
   <h6 class="more" (click)="addNewAddress()">Add another address</h6>
   <div class="btn">
     <button mat-raised-button (click)="backToMain()">Prevlous</button>
-    <button mat-raised-button color="primary" (click)="next()"  [disabled]="firstForm.invalid">Next</button>
+    <button mat-raised-button color="primary" (click)="preview()"  [disabled]="firstForm.invalid">Next</button>
   </div>
-
   <div class="info" *ngIf="info === true">
     <h4>User name: {{userInfo[0].userName}}</h4>
     <h4>First name: {{userInfo[0].firstName}}</h4>
@@ -141,7 +130,6 @@
     <h4>Your email: {{userInfo[0].email}}</h4>
     <h4>Your pasword: {{userInfo[0].password}}</h4>
     <h4>Your phone number: {{userInfo[0].phone}}</h4>
-
     <ul *ngFor="let address of userInfo[0].address">
       <h4>{{ address.type }}:</h4>
       <li>Country: {{ address.country }}</li>
@@ -152,9 +140,7 @@
       <button mat-raised-button (click)="cancel()">Cancel</button>
       <button mat-raised-button color="primary" (click)="save()">Save</button>
     </div>
-
   </div>
-
 </div>
 
 
