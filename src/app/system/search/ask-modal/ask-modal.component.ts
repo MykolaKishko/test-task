@@ -15,11 +15,9 @@ export class AskModalComponent implements OnInit {
   currentAddr = this.globalService.currentAddr;
   currentValue = this.globalService.currentValue;
   currentUser = this.globalService.currentUser;
-
   firstFormValue = this.globalService.firstFormValue;
   secondFormValue = this.globalService.secondFormValue;
   editFormValue = this.globalService.editFormValue;
-
   editAddress = this.globalService.editAddress;
   editUser = this.globalService.editUser;
   deleteAddress = this.globalService.deleteAddress;
@@ -38,14 +36,14 @@ export class AskModalComponent implements OnInit {
 
   updateAddr() {
     const form = this.currentAddr[0];
-    this.users.forEach( (user, index) => {
+    this.mainInfo.forEach( (user, index) => {
       if (this.currentValue[0].firstName === user.firstName) {
-        this.users[index].address.forEach( key => {
-          if (key.id === this.currentAddr[0].id) {
-            key.type = this.currentAddr[0].type;
-            key.country = this.firstFormValue[0].country;
-            key.city =  this.firstFormValue[0].city;
-            key.code = this.firstFormValue[0].code;
+        this.mainInfo[index].address.forEach( key => {
+          if (key.id === form.id) {
+            key.type = form.type;
+            key.country = form.country;
+            key.city =  form.city;
+            key.code = form.code;
           }
         });
       }
@@ -53,27 +51,22 @@ export class AskModalComponent implements OnInit {
     this.dialog.closeAll();
     this.editAddress.shift();
   }
-
-
   editMain() {
     const form = this.editFormValue;
-    this.users[0].forEach( (user, i) => {
+    this.mainInfo[0].forEach( (user, i) => {
       if (user.id === this.currentValue[0].id) {
         const address = this.currentValue[0].address;
-        this.users[i] = form[0];
-        this.users[i].address = address;
-        this.authService.editUser( user.id, this.users[i]);
+        this.mainInfo[i] = form[0];
+        this.mainInfo[i].address = address;
+        this.authService.editUser( user.id, this.mainInfo[i]);
       }
     });
     this.dialog.closeAll();
     this.editUser.shift();
   }
-
-
   removeUser() {
-    this.users[0].forEach((user, i: number) => {
+    this.mainInfo[0].forEach((user, i: number) => {
       if (user.id === this.currentUser[0].id) {
-        this.users[0].splice(i, 1);
         this.mainInfo[0].splice(i, 1);
         this.authService.deleteUser(this.currentUser[0].id).subscribe();
       }
@@ -81,9 +74,7 @@ export class AskModalComponent implements OnInit {
     this.dialog.closeAll();
     this.deleteUser.shift();
   }
-
   removeAddress() {
-    console.log(this.currentAddr[0]);
     this.mainInfo[0].forEach((user, index) => {
       if (user.id === this.currentUser[0].id ) {
         this.currentUser[0].address.forEach(( key, i ) => {
@@ -94,7 +85,6 @@ export class AskModalComponent implements OnInit {
         });
       }
     });
-
     this.dialog.closeAll();
     this.deleteAddress.shift();
   }
@@ -119,6 +109,10 @@ export class AskModalComponent implements OnInit {
       if (user.id === this.currentUser[0].id) {
         user.address.push(obj);
         this.authService.addAddress(user.id, obj);
+
+                ////////////////////////////////
+                ///// console.log(user); /////
+                ////////////////////////////////
       }
     });
     this.dialog.closeAll();

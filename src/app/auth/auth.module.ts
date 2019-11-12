@@ -9,6 +9,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 
@@ -16,7 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     declarations: [
         LoginComponent,
         HomeComponent,
-        AuthComponent
+        AuthComponent,
+        RegistrationComponent
     ],
     imports: [
         CommonModule,

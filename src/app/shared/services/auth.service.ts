@@ -78,15 +78,16 @@ export class AuthService {
       });
     });
   }
-
   addAddress( userId: number, obj: any) {
     const url = `${this.URL}/${userId}`;
     let usser: any;
     this.http.get(url).subscribe( user => {
       usser = user;
       this.http.delete(url);
-      usser.address = obj.address;
+      usser.address.push(obj);
+      console.log(usser)
       this.http.post(this.URL, usser);
+
     });
   }
 
