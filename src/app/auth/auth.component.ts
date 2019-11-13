@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
 
 })
 
-export class AuthComponent implements OnInit{
+export class AuthComponent implements OnInit {
 
-    constructor( private router: Router ){}
+    constructor( private router: Router ) {}
 
     ngOnInit() {
-        // this.router.navigate(['/home']);
+        this.router.navigate(['/home']);
     }
 }

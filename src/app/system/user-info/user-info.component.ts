@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { GlobalService } from 'src/app/shared/services/global.service';
 
 
 @Component({
@@ -9,10 +9,7 @@ import { GlobalService } from 'src/app/global.service';
 })
 export class UserInfoComponent implements OnInit {
 
-  newUser = this.globalService.newUser;
-  users = this.globalService.users;
   authUser = JSON.parse(window.localStorage.getItem('User'));
-
 
   constructor( private globalService: GlobalService ) { }
 

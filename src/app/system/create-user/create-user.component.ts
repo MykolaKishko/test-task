@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GlobalService } from 'src/app/global.service';
+import { GlobalService } from 'src/app/shared/services/global.service';
 import { Router } from '@angular/router';
 import {
   passwordValidator,
@@ -23,13 +23,12 @@ export class CreateUserComponent implements OnInit {
 
   form: FormGroup;
   firstForm: FormGroup;
-  newUser = this.globalService.newUser;
+  newUser = [];
   mainInfo = true;
   addressInfo = false;
   main: boolean;
   address: boolean;
   info: boolean;
-  users = this.globalService.users;
   userInfo = [];
   countries: any;
   new = true;
@@ -63,9 +62,8 @@ export class CreateUserComponent implements OnInit {
       code: new FormControl('', [Validators.required, codeValidator])
     });
   }
-
   next() {
-    let form = this.form.value;
+    const form = this.form.value;
     this.newUser.push({
       firstName: form.firstName,
       lastName: form.lastName,
@@ -91,8 +89,8 @@ export class CreateUserComponent implements OnInit {
   preview() {
     if (this.new === true) {
       if (this.firstForm.valid) {
-        let form = this.firstForm.value;
-        let obj = {
+        const form = this.firstForm.value;
+        const obj = {
           type: '',
           country: form.country,
           city: form.city,
@@ -123,12 +121,9 @@ export class CreateUserComponent implements OnInit {
   }
   save() {
     const obj = this.newUser[0];
-    console.log(obj);
     this.authService.addNewUser(obj).subscribe();
     this.router.navigate(['/system', 'userInfo']);
     this.userInfo = [];
-    
-
   }
   backToMain() {
     this.address = !this.address;

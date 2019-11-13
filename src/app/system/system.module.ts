@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateMainComponent } from './search/update-main/update-main.component';
 import { UpdateAddressComponent } from './search/update-address/update-address.component';
-import { AskModalComponent } from './search/ask-modal/ask-modal.component';
 import { NewAddressModalComponent } from './search/new-address-modal/new-address-modal.component';
 
 @NgModule({
@@ -34,7 +33,6 @@ import { NewAddressModalComponent } from './search/new-address-modal/new-address
         CreateUserComponent,
         UpdateMainComponent,
         UpdateAddressComponent,
-        AskModalComponent,
         NewAddressModalComponent
     ]
 })

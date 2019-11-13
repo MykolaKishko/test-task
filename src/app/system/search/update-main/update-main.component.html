@@ -1,6 +1,6 @@
-<div class="pop-modal">
+<div class="pop-modal" *ngIf="action === 'updateUser'">
   <div class="wrap" id="main">  
-    <form [formGroup] = "editForm" (ngSubmit)="openAskModal()">
+    <form [formGroup] = "editForm" (ngSubmit)="editMain()">
         <div class="form-group">
           <label for="firstName">First name:</label>
           <mat-form-field class="example-full-width inp-wrap">
@@ -88,3 +88,13 @@
       </form>
   </div>
 </div>
+
+<div class="ask-modal" id="delete" *ngIf="action === 'deleteUser'">
+    <div class="wrap" id="del">
+      <h4>Are you sure?</h4>
+      <div class="block">
+        <button mat-raised-button mat-dialog-close >No</button>
+        <button mat-raised-button color="primary" class="removeUser" (click)="removeUser()" >Yes</button>
+      </div>
+    </div>
+  </div>

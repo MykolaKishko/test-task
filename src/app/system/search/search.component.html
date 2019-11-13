@@ -1,32 +1,30 @@
-
-
 <div class="block">
   <div class="form-wrap1">
     <div class="form-group col-lg-6 col-md-6 col-sm-12">
       <mat-form-field class="example-full-width inp-wrap">
-        <input matInput type="text"  placeholder="First name:" #firstName [(ngModel)]="firstNameSearch">
+        <input matInput type="text"  placeholder="First name:" #firstName>
       </mat-form-field>
     </div>
     <div class="form-group col-lg-6 col-md-6 col-sm-12">
       <mat-form-field class="example-full-width inp-wrap">
-        <input matInput type="text"  placeholder="Last name:" #lastName [(ngModel)]="lastNameSearch"> 
+        <input matInput type="text"  placeholder="Last name:" #lastName> 
       </mat-form-field>
     </div>
   </div>
   <div class="form-wrap2">
     <div class="form-group col-lg-4 col-md-4 col-sm-12">
       <mat-form-field class="example-full-width inp-wrap">
-        <input matInput type="text"  placeholder="User name:" #userName [(ngModel)]="userNameSearch">
+        <input matInput type="text"  placeholder="User name:" #userName>
       </mat-form-field>
     </div>
     <div class="form-group col-lg-4 col-md-4 col-sm-12">
       <mat-form-field class="example-full-width inp-wrap">
-        <input matInput type="text"  placeholder="Email:" #email [(ngModel)]="emailSearch">
+        <input matInput type="text"  placeholder="Email:" #email>
       </mat-form-field>
     </div>
     <div class="form-group col-lg-4 col-md-4 col-sm-12">
       <mat-form-field class="example-full-width inp-wrap">
-        <input matInput type="text"  placeholder="Phone:" #phone [(ngModel)]="phoneSearch">
+        <input matInput type="text"  placeholder="Phone:" #phone>
       </mat-form-field>
     </div>
   </div>
@@ -59,21 +57,21 @@
   </ng-container>
   <ng-container matColumnDef="update">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element" (click)="rowClick(element)">
-      <button mat-raised-button color="basic" (click)="openMainModal(element)" >update</button> 
+    <td mat-cell *matCellDef="let user" (click)="rowClick(element)">
+      <button mat-raised-button color="basic" (click)="openMainModal('updateUser', user)">update</button> 
     </td>
   </ng-container>
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element" (click)="rowClick(element)">
-     <button mat-raised-button color="basic" (click)="openAskModal(element)">delete</button> 
+    <td mat-cell *matCellDef="let user" (click)="rowClick(element)">
+     <button mat-raised-button color="basic" (click)="openMainModal('deleteUser', user)">delete</button> 
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<table mat-table #secondTable [dataSource]="currentUser[0].address"  id="hTable" class="mat-elevation-z8"  *ngIf="addressCount !== 0 || currentUser === []">
+<table mat-table #secondTable [dataSource]="userAddresses"  id="hTable" class="mat-elevation-z8"  *ngIf="addressCount !== 0 || currentUser === []">
   <ng-container matColumnDef="first-name">
     <th mat-header-cell *matHeaderCellDef>Address type:</th>
     <td mat-cell *matCellDef="let element">{{ element.type }}:</td>
@@ -93,13 +91,13 @@
   <ng-container matColumnDef="update">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      <button mat-raised-button color="basic" (click)="openAddressModal(element)">update</button> 
+      <button mat-raised-button color="basic" (click)="openAddressModal('updateAddress', element)">update</button> 
     </td>
   </ng-container>
   <ng-container matColumnDef="delete">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-     <button mat-raised-button color="basic" (click)="delAddressModal(element)" >delete</button> 
+     <button mat-raised-button color="basic"  (click)="openAddressModal('deleteAddress', element)" >delete</button> 
     </td>
   </ng-container>
   <ng-container matColumnDef="phone">
@@ -109,7 +107,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<button id="newAddress" *ngIf="addressCount !== 0" mat-raised-button color="basic" (click)="newAddressModal()">add new address</button> 
+<button id="newAddress" *ngIf="addressCount !== 0" mat-raised-button color="basic" (click)="newAddressModal('addAddress', element)">add new address</button> 
 
 
 

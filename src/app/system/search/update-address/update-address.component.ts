@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { Component, OnInit, Inject } from '@angular/core';
+import { GlobalService } from 'src/app/shared/services/global.service';
 import { cityValidator, codeValidator } from '../../../shared/validators/validator';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { AskModalComponent } from '../ask-modal/ask-modal.component';
+import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-update-address',
@@ -13,35 +13,65 @@ import { AskModalComponent } from '../ask-modal/ask-modal.component';
 
 export class UpdateAddressComponent implements OnInit {
 
-  constructor( private globalService: GlobalService, public dialog: MatDialog) { }
-
   firstForm: FormGroup;
-  currentValue = this.globalService.currentValue;
-  currentAddr = this.globalService.currentAddr;
+  action = this.data.action;
   countries: any;
-  users = this.globalService.users;
-  addressInfo = this.globalService.addressInfo;
   mainInfo = this.globalService.mainInfo;
-  firstFormValue = this.globalService.firstFormValue;
-  editAddress = this.globalService.editAddress;
+  selectedUser = this.globalService.selectedUser;
+
+  constructor(
+    private globalService: GlobalService,
+    public dialog: MatDialog,
+    private authService: AuthService,
+    public dialogRef: MatDialogRef<UpdateAddressComponent>,
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit() {
     this.getCountry();
-    this.firstForm = new FormGroup({
-      country: new FormControl( this.currentAddr[0].country,  [Validators.required]),
-      city: new FormControl( this.currentAddr[0].city, [Validators.required, cityValidator]),
-      code: new FormControl( this.currentAddr[0].code, [Validators.required, codeValidator])
+    this.firstForm = this.formBuilder.group({
+      type: new FormControl(this.data.address.type),
+      country: new FormControl( this.data.address.country,  [Validators.required]),
+      city: new FormControl( this.data.address.city, [Validators.required, cityValidator]),
+      code: new FormControl( this.data.address.code, [Validators.required, codeValidator]),
+      id: new FormControl(this.data.address.id)
     });
   }
+
   closeAddrModal() {
     this.dialog.closeAll();
   }
-  openAskModal() {
-    this.dialog.open(AskModalComponent);
-    this.firstFormValue.shift();
-    this.firstFormValue.push(this.firstForm.value);
-    this.editAddress.shift();
-    this.editAddress.push(true);
+  editAddress() {
+    const form = this.firstForm.value;
+    // this.userAddresses[0].forEach( (user, index) => {
+    this.mainInfo[0].forEach( (user, index) => {
+      if (user.id === this.selectedUser[0].id) {
+        user.address.forEach( (addr, i) => {
+          if (addr.id === this.data.address.id) {
+            user.address[i] = form;
+            const newAddress = user.address[i];
+            user.address.splice(i, 1);
+            user.address.push(newAddress);
+            this.authService.editAddress(user.id, user);
+          }
+        });
+      }
+    });
+    this.dialog.closeAll();
+  }
+  removeAddress() {
+    this.mainInfo[0].forEach(user => {
+      if (user.id === this.selectedUser[0].id) {
+        user.address.forEach(( addr, i ) => {
+          if (addr.id === this.data.address.id) {
+            user.address.splice(i, 1);
+            this.authService.deleteAddress(user.id, user);
+          }
+        });
+      }
+    });
+    this.dialog.closeAll();
   }
   getCountry(): void {
     this.globalService.getCountries().subscribe(

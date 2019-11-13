@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { GlobalService } from '../global.service';
+import { GlobalService } from '../shared/services/global.service';
 
 @Component({
     selector: 'wfm-system',
@@ -10,10 +10,10 @@ import { GlobalService } from '../global.service';
 
 export class SystemComponent implements OnInit  {
 
-    constructor( private authService: AuthService, private globalservice: GlobalService ) {}
-
     user = JSON.parse(window.localStorage.User);
     show = false;
+
+    constructor( private authService: AuthService, private globalservice: GlobalService ) {}
 
     ngOnInit() {}
 

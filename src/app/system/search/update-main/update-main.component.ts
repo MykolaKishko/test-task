@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { GlobalService } from 'src/app/shared/services/global.service';
 import {
   firstNameValidator,
   emailValidator,
@@ -7,9 +7,9 @@ import {
   passwordValidator,
   lastNameValidator
 } from '../../../shared/validators/validator';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { AskModalComponent } from '../ask-modal/ask-modal.component';
+import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-update-main',
@@ -17,37 +17,34 @@ import { AskModalComponent } from '../ask-modal/ask-modal.component';
   styleUrls: ['./update-main.component.scss']
 })
 
-
 export class UpdateMainComponent implements OnInit {
 
-  // @Input() name: string;
-
-  constructor( private globalService: GlobalService, public dialog: MatDialog) {}
-
   editForm: FormGroup;
-  currentValue = this.globalService.currentValue;
   countries: any;
-  users = this.globalService.users;
-  addressInfo = this.globalService.addressInfo;
-  currentAddr = this.globalService.currentAddr;
-  editFormValue = this.globalService.editFormValue;
-  editUser = this.globalService.editUser;
+  mainInfo = this.globalService.mainInfo;
+  action = this.data.action;
+
+  constructor(
+    private globalService: GlobalService,
+    private authService: AuthService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<UpdateMainComponent>,
+    private formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit() {
-  
     this.getCountry();
-    this.editForm = new FormGroup({
-      firstName: new FormControl(this.currentValue[0].firstName, [Validators.required, firstNameValidator]),
-      lastName: new FormControl(this.currentValue[0].lastName, [Validators.required,  lastNameValidator]),
-      userName: new FormControl(this.currentValue[0].userName, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
-      email: new FormControl(this.currentValue[0].email, [Validators.required, emailValidator]),
-      phone: new FormControl(this.currentValue[0].phone, [Validators.required,  phoneNumberValidator]),
-      password1: new FormControl(this.currentValue[0].password, [Validators.required, Validators.minLength(5)]),
-      password: new FormControl(this.currentValue[0].password, [Validators.required, Validators.minLength(5), passwordValidator])
+    this.editForm = this.formBuilder.group({
+      firstName: new FormControl(this.data.user.firstName, [Validators.required, firstNameValidator]),
+      lastName: new FormControl(this.data.user.lastName, [Validators.required,  lastNameValidator]),
+      userName: new FormControl(this.data.user.userName, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
+      email: new FormControl(this.data.user.email, [Validators.required, emailValidator]),
+      phone: new FormControl(this.data.user.phone, [Validators.required,  phoneNumberValidator]),
+      password1: new FormControl(this.data.user.password, [Validators.required, Validators.minLength(5)]),
+      password: new FormControl(this.data.user.password, [Validators.required, Validators.minLength(5), passwordValidator])
     });
   }
-
-  
 
   getCountry(): void {
     this.globalService.getCountries().subscribe(
@@ -55,14 +52,30 @@ export class UpdateMainComponent implements OnInit {
         err => err
     );
   }
-  openAskModal() {
-    this.dialog.open(AskModalComponent);
-    this.editFormValue.shift();
-    this.editFormValue.push(this.editForm.value);
-    this.editUser.shift();
-    this.editUser.push(true);
+  editMain() {
+    const form = this.editForm.value;
+    this.mainInfo[0].forEach( (user, i) => {
+      if (user.id === this.data.user.id) {
+        const address = this.data.user.address;
+        this.mainInfo[i] = form;
+        this.mainInfo[i].address = address;
+        const newUser = this.mainInfo[i];
+        this.mainInfo.splice(i, 1);
+        this.mainInfo.push(newUser);
+        this.authService.editUser( this.data.user.id, this.mainInfo[i]);
+      }
+    });
+    this.dialog.closeAll();
   }
-
+  removeUser() {
+    this.mainInfo[0].forEach((user, i: number) => {
+      if (user.id === this.data.user.id) {
+        this.mainInfo[0].splice(i, 1);
+        this.authService.deleteUser(user.id).subscribe();
+      }
+    });
+    this.dialog.closeAll();
+  }
   closeMainModal() {
     this.dialog.closeAll();
   }

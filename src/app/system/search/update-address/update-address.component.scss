@@ -62,6 +62,15 @@
     } 
 }
 
+.ask-modal{
+  .wrap{
+    text-align: center;
+    button{
+        margin: 10px;
+    }
+  }
+}
+
 #address{
     overflow: hidden;
     #btn{
