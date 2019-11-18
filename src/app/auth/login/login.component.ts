@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngxs/store';
+import { LogIn } from 'src/app/store/action/login.action';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  users: any;
+  users = null;
   message = '';
 
 
@@ -19,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -35,11 +38,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
+
+  // logIn() {
+  //   this.store.dispatch(new LogIn(this.form.value));
+  // }
+
+
   logIn() {
     this.http.get('http://localhost:3000/users').subscribe( users => {
       this.users = users;
       if (!!this.users) {
-        this.users.forEach((user) => {
+        this.users.map((user) => {
           if (user.userName !== this.form.controls.userName.value) {
             this.message = 'Wrong login!';
           }

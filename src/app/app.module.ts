@@ -7,11 +7,21 @@ import { SystemModule } from './system/system.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
 
+import {NgxsModule} from '@ngxs/store';
+import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
+import {NgxsRouterPluginModule} from '@ngxs/router-plugin';
+import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
+import {NgxsFormPluginModule} from '@ngxs/form-plugin';
+import {NgxsDispatchPluginModule} from '@ngxs-labs/dispatch-decorator';
+
+
 import { AuthService } from './shared/services/auth.service';
 import { AppComponent } from './app.component';
 import { UpdateAddressComponent } from './system/search/update-address/update-address.component';
 import { UpdateMainComponent } from './system/search/update-main/update-main.component';
 import { NewAddressModalComponent } from './system/search/new-address-modal/new-address-modal.component';
+import { UserState } from './store/state/User.state';
+import { CreateUserState } from './store/state/users.state';
 
 @NgModule({
   declarations: [
@@ -24,7 +34,16 @@ import { NewAddressModalComponent } from './system/search/new-address-modal/new-
     AuthModule,
     SystemModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    NgxsModule.forRoot([
+      // UserState,
+      // CreateUserState
+    ]),
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsRouterPluginModule.forRoot(),
+    NgxsFormPluginModule.forRoot(),
+    NgxsDispatchPluginModule.forRoot(),
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

@@ -1,4 +1,4 @@
-<div class="main" *ngIf="main === true">
+<div class="main" *ngIf="mainBlock === true">
   <form class="form" [formGroup] = "form" (ngSubmit)="next()">
     <div class="form-group">
       <label for="firstName">First name:</label>
@@ -56,7 +56,7 @@
       <div class="pass-group col-lg-6 col-md-6">
         <label for="password1">Password:</label>
         <mat-form-field class="example-full-width inp-wrap">
-          <input matInput  id="password1" type="password" [(ngModel)]="pass1"  formControlName="password1">
+          <input matInput  id="password1" type="password" formControlName="password1">
         </mat-form-field>
         <mat-error *ngIf="form.get('password1').invalid && form.get('password1').touched">
           <mat-error *ngIf="form.get('password1')['errors']['required']">The password cannot be empty!</mat-error>
@@ -67,12 +67,12 @@
       <div class="pass-group col-lg-6  col-md-6">
         <label for="password2">Password:</label>
         <mat-form-field class="example-full-width inp-wrap">
-          <input matInput  id="password2" type="password"  [(ngModel)]="pass2"  formControlName="password2">
+          <input matInput  id="password2" type="password" formControlName="password">
         </mat-form-field>
-        <mat-error *ngIf="form.get('password2').invalid && form.get('password2').touched">
-          <mat-error *ngIf="form.get('password2')['errors']['required']">The password cannot be empty!</mat-error>
-          <mat-error *ngIf="form.get('password2')['errors']['minlength']">Min lenght 5!</mat-error>
-          <mat-error *ngIf="form.get('password2')['errors']['passCheck']">Different password!</mat-error>
+        <mat-error *ngIf="form.get('password').invalid && form.get('password').touched">
+          <mat-error *ngIf="form.get('password')['errors']['required']">The password cannot be empty!</mat-error>
+          <mat-error *ngIf="form.get('password')['errors']['minlength']">Min lenght 5!</mat-error>
+          <mat-error *ngIf="form.get('password')['errors']['passCheck']">Different password!</mat-error>
         </mat-error>  
       </div>
     </div>
@@ -82,7 +82,7 @@
   </form>
 </div>
 
-<div class="address" *ngIf="address === true">
+<div class="address" *ngIf="addressBlock === true">
   <form [formGroup] = "firstForm">
     <mat-form-field>
       <mat-select #qq formControlName="select" [(ngModel)]="sel1" (onChange)="select()" placeholder="Address type">
@@ -124,13 +124,13 @@
     <button mat-raised-button color="primary" (click)="preview()"  [disabled]="firstForm.invalid">Next</button>
   </div>
   <div class="info" *ngIf="info === true">
-    <h4>User name: {{userInfo[0].userName}}</h4>
-    <h4>First name: {{userInfo[0].firstName}}</h4>
-    <h4>Last name: {{userInfo[0].lastName}}</h4>
-    <h4>Your email: {{userInfo[0].email}}</h4>
-    <h4>Your pasword: {{userInfo[0].password}}</h4>
-    <h4>Your phone number: {{userInfo[0].phone}}</h4>
-    <ul *ngFor="let address of userInfo[0].address">
+    <h4>User name: {{newUser.userName}}</h4>
+    <h4>First name: {{newUser.firstName}}</h4>
+    <h4>Last name: {{newUser.lastName}}</h4>
+    <h4>Your email: {{newUser.email}}</h4>
+    <h4>Your pasword: {{newUser.password}}</h4>
+    <h4>Your phone number: {{newUser.phone}}</h4>
+    <ul *ngFor="let address of newUser.address">
       <h4>{{ address.type }}:</h4>
       <li>Country: {{ address.country }}</li>
       <li>City: {{ address.city }}</li>
@@ -142,7 +142,3 @@
     </div>
   </div>
 </div>
-
-
-
-

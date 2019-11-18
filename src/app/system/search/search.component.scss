@@ -4,31 +4,38 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .wrap{
-        width: 160px;
-        display: flex;
-        justify-content: space-between;
-    }
-    .form-wrap1{
+    form {
         width: 100%;
         display: flex;
-        justify-content: space-between;
-        .form-group{
-            width: 48%;
-            .inp-wrap{
-                width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .form-wrap1{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            .form-group{
+                width: 48%;
+                .inp-wrap{
+                    width: 100%;
+                }
             }
         }
-    }
-    .form-wrap2{
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        .form-group{
-            width: 31%;
-            .inp-wrap{
-                width: 100%;
+        .form-wrap2{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            .form-group{
+                width: 31%;
+                .inp-wrap{
+                    width: 100%;
+                }
             }
+        }
+        .wrapper{
+            display: flex;
+            width: 163px;
+            justify-content: space-between;
         }
     }
 }

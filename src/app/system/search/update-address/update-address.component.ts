@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { GlobalService } from 'src/app/shared/services/global.service';
+import { GlobalService } from 'src/app/shared/services/countries.service';
 import { cityValidator, codeValidator } from '../../../shared/validators/validator';
-import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { QueriesService } from 'src/app/shared/services/requests.service';
 
 @Component({
   selector: 'app-update-address',
@@ -16,21 +16,18 @@ export class UpdateAddressComponent implements OnInit {
   firstForm: FormGroup;
   action = this.data.action;
   countries: any;
-  mainInfo = this.globalService.mainInfo;
-  selectedUser = this.globalService.selectedUser;
 
   constructor(
     private globalService: GlobalService,
     public dialog: MatDialog,
-    private authService: AuthService,
+    private queriesService: QueriesService,
     public dialogRef: MatDialogRef<UpdateAddressComponent>,
-    private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {
     this.getCountry();
-    this.firstForm = this.formBuilder.group({
+    this.firstForm = new FormGroup({
       type: new FormControl(this.data.address.type),
       country: new FormControl( this.data.address.country,  [Validators.required]),
       city: new FormControl( this.data.address.city, [Validators.required, cityValidator]),
@@ -44,33 +41,20 @@ export class UpdateAddressComponent implements OnInit {
   }
   editAddress() {
     const form = this.firstForm.value;
-    // this.userAddresses[0].forEach( (user, index) => {
-    this.mainInfo[0].forEach( (user, index) => {
-      if (user.id === this.selectedUser[0].id) {
-        user.address.forEach( (addr, i) => {
-          if (addr.id === this.data.address.id) {
-            user.address[i] = form;
-            const newAddress = user.address[i];
-            user.address.splice(i, 1);
-            user.address.push(newAddress);
-            this.authService.editAddress(user.id, user);
-          }
-        });
-      }
-    });
+    const selectedUser = this.data.selectedUser;
+    this.data.users = this.data.users.filter(user => user.id !== selectedUser.id);
+    selectedUser.address = selectedUser.address.filter( address => address.id !== this.data.address.id);
+    selectedUser.address = [ ...selectedUser.address, ...form ];
+    this.data.users = [ ...this.data.users, ...selectedUser.address];
+    this.queriesService.editAddress( selectedUser.id, selectedUser );
     this.dialog.closeAll();
   }
   removeAddress() {
-    this.mainInfo[0].forEach(user => {
-      if (user.id === this.selectedUser[0].id) {
-        user.address.forEach(( addr, i ) => {
-          if (addr.id === this.data.address.id) {
-            user.address.splice(i, 1);
-            this.authService.deleteAddress(user.id, user);
-          }
-        });
-      }
-    });
+    const selectedUser = this.data.selectedUser;
+    this.data.users = this.data.users.filter(user => user.id !== selectedUser.id);
+    selectedUser.address = selectedUser.address.filter( address => address.id !== this.data.address.id);
+    this.data.users = [ ...this.data.users, ...selectedUser.address];
+    this.queriesService.deleteAddress(selectedUser.id, selectedUser);
     this.dialog.closeAll();
   }
   getCountry(): void {

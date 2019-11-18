@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GlobalService } from 'src/app/shared/services/global.service';
+import { GlobalService } from 'src/app/shared/services/countries.service';
 import { Router } from '@angular/router';
 import {
   passwordValidator,
@@ -11,7 +11,7 @@ import {
   cityValidator,
   codeValidator
 } from '../../shared/validators/validator';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { QueriesService } from 'src/app/shared/services/requests.service';
 
 @Component({
   selector: 'app-create-user',
@@ -23,29 +23,24 @@ export class CreateUserComponent implements OnInit {
 
   form: FormGroup;
   firstForm: FormGroup;
-  newUser = [];
-  mainInfo = true;
-  addressInfo = false;
-  main: boolean;
-  address: boolean;
+  newUser = null;
+  mainBlock: boolean;
+  addressBlock: boolean;
   info: boolean;
-  userInfo = [];
   countries: any;
-  new = true;
+  newAddressInput = true;
 
   constructor(
     private globalService: GlobalService,
     private router: Router,
-    private authService: AuthService
+    private queriesService: QueriesService
   ) {}
 
   ngOnInit() {
-    this.newUser = [];
-    this.main = true;
+    this.newUser = null;
+    this.mainBlock = true;
     this.info = false;
-    this.addressInfo = false;
     this.getCountry();
-    this.userInfo = [];
     this.form = new FormGroup({
       firstName: new FormControl('', [Validators.required, firstNameValidator]),
       lastName: new FormControl('', [Validators.required, lastNameValidator]),
@@ -53,7 +48,8 @@ export class CreateUserComponent implements OnInit {
       email: new FormControl('', [Validators.required, emailValidator]),
       phone: new FormControl('', [Validators.required, phoneNumberValidator]),
       password1: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      password2: new FormControl('', [Validators.required, Validators.minLength(5), passwordValidator])
+      password: new FormControl('', [Validators.required, Validators.minLength(5), passwordValidator]),
+      address: new FormControl([])
     });
     this.firstForm = new FormGroup({
       select: new FormControl('', [Validators.required]),
@@ -62,19 +58,12 @@ export class CreateUserComponent implements OnInit {
       code: new FormControl('', [Validators.required, codeValidator])
     });
   }
+
   next() {
     const form = this.form.value;
-    this.newUser.push({
-      firstName: form.firstName,
-      lastName: form.lastName,
-      userName: form.userName,
-      phone: form.phone,
-      email: form.email,
-      password: form.password2,
-      address: []
-    });
-    this.main = false;
-    this.address = true;
+    this.newUser =  form;
+    this.mainBlock = false;
+    this.addressBlock = true;
   }
   getCountry(): void {
     this.globalService.getCountries().subscribe(
@@ -84,49 +73,41 @@ export class CreateUserComponent implements OnInit {
   }
   addNewAddress() {
     this.firstForm.reset();
-    this.new = true;
+    this.newAddressInput = true;
   }
   preview() {
-    if (this.new === true) {
+    if (this.newAddressInput === true) {
       if (this.firstForm.valid) {
         const form = this.firstForm.value;
-        const obj = {
-          type: '',
-          country: form.country,
-          city: form.city,
-          code: form.code,
-          id: this.newUser[0].address.length + 1
-        };
+        const obj = form;
+        obj.type = '';
+        obj.id = this.newUser.address.length + 1;
         if (form.select === 'hAddress') {
           obj.type = 'Home address';
-          this.newUser[0].address.push(obj);
+          this.newUser.address = [...this.newUser.address, ...obj];
         }
         if (form.select === 'sAddress') {
           obj.type = 'Shipping address';
-          this.newUser[0].address.push(obj);
+          this.newUser.address = [...this.newUser.address, ...obj];
         }
         if (form.select === 'bAddress') {
           obj.type = 'Billing address';
-          this.newUser[0].address.push(obj);
+          this.newUser.address = [...this.newUser.address, ...obj];
         }
       }
-      this.userInfo.shift();
-      this.userInfo.push(this.newUser[0]);
       this.info = true;
-      this.new = false;
+      this.newAddressInput = false;
     }
   }
   cancel() {
     this.info = false;
   }
   save() {
-    const obj = this.newUser[0];
-    this.authService.addNewUser(obj).subscribe();
+    this.queriesService.addNewUser(this.newUser).subscribe();
     this.router.navigate(['/system', 'userInfo']);
-    this.userInfo = [];
   }
   backToMain() {
-    this.address = !this.address;
-    this.main = !this.main;
+    this.addressBlock = !this.addressBlock;
+    this.mainBlock = !this.mainBlock;
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Countries } from './countries';
+import { Countries } from '../models/countries';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
@@ -14,8 +14,6 @@ export class GlobalService {
 
   apiURL = 'https://restcountries.eu/rest/v1/all';
   countries: Countries[];
-  selectedUser = [];
-  mainInfo = [];
 
   getCountries(): Observable<Countries[]> {
     return this.http.get<Countries[]>(`${this.apiURL}`)

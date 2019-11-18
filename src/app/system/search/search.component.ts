@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { GlobalService } from 'src/app/shared/services/global.service';
+import { GlobalService } from 'src/app/shared/services/countries.service';
 import { UpdateMainComponent } from './update-main/update-main.component';
 import { UpdateAddressComponent } from './update-address/update-address.component';
 import { MatDialog, MatTable } from '@angular/material';
-import { Users, Address } from 'src/app/users';
+import { Users, Address } from 'src/app/shared/models/users';
 import { NewAddressModalComponent } from './new-address-modal/new-address-modal.component';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { QueriesService } from 'src/app/shared/services/requests.service';
 
 @Component({
   selector: 'app-search',
@@ -21,137 +21,143 @@ export class SearchComponent implements OnInit {
 
   displayedColumns: string[] = ['first-name', 'last-name', 'user-name', 'phone', 'email', 'update', 'delete'];
   countries: any;
-  count = 0;
-  addressCount = 0;
-
-  mainInfo = this.globalService.mainInfo;
+  mainCount = true;
+  addressCount = false;
+  searchForm: FormGroup;
   userAddresses: Address[];
-  selectedUser: Users[] = this.globalService.selectedUser;
+  selectedUser: Users[];
+  mainInfo = [];
+  searchUsers = null;
 
   constructor(
     private globalService: GlobalService,
     public dialog: MatDialog,
     private http: HttpClient,
-    private authService: AuthService,
-    private fb: FormBuilder,
+    private queriesService: QueriesService,
   ) {}
 
   ngOnInit() {
-    this.count = 1;
-    this.addressCount = 0;
+    this.addressCount = false;
     this.getCountry();
-    this.authService.getUsers().subscribe( res => {
-      this.mainInfo.push(res);
+    this.queriesService.getUsers().subscribe( res => {
+      const response: any = res;
+      this.mainInfo = [...this.mainInfo, ...response];
+    });
+    this.searchForm = new FormGroup({
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      userName: new FormControl(''),
+      email: new FormControl(''),
+      phone: new FormControl('')
     });
   }
-  remove() {
-    this.count = 0;
-    this.addressCount = 0;
-    this.mainInfo = [];
-  }
-  openMainModal( action: string, user: any) {
-    event.stopPropagation();
+
+  openMainModal( action: string, user: Users) {
+    const users = this.mainInfo;
+    const selectedUser = this.selectedUser;
     const dialogRef = this.dialog.open(UpdateMainComponent, {
-      data: {
-        user,
-        action
-      }
+      data: { user, action, users, selectedUser }
     });
   }
-  openAddressModal(action: string, address: any) {
-    event.stopPropagation();
+  openAddressModal(action: string, address: Address) {
+    const users = this.mainInfo;
+    const selectedUser = this.selectedUser;
     const dialogRef = this.dialog.open(UpdateAddressComponent, {
-      data: {
-        address,
-        action
-      }
+      data: { address, action, users, selectedUser }
     });
   }
-  newAddressModal(action: string, address) {
+  newAddressModal(action: string, address: Address) {
+    const users = this.mainInfo;
+    const selectedUser = this.selectedUser;
     const dialogRef = this.dialog.open(NewAddressModalComponent, {
-      data: {
-        address,
-        action
-      }
+      data: { address, action, users, selectedUser }
     });
   }
-  rowClick(user: any) {
+  rowClick(user) {
     this.userAddresses = user.address;
-    this.selectedUser.shift();
-    this.selectedUser.push(user);
-    if (this.addressCount === 0) {
-      this.addressCount = 1;
-    } else if (this.addressCount === 1) {
-      this.addressCount = 0;
+    this.selectedUser = user;
+    if (this.addressCount === false) {
+      this.addressCount = true;
+    } else if (this.addressCount === true) {
+      this.addressCount = false;
     }
   }
-  add(firstName: any, lastName: any, userName: any, email: any, phone: any, refresh: any, table: any, secondTable: any) {
-    if (firstName !== '') {
-      const searchUsers = [];
-      this.count = 1;
-      this.http.get('http://localhost:3000/users').subscribe( elem => {
-        searchUsers.push(elem);
-        this.mainInfo[0] = [];
-        searchUsers[0].filter( user => {
-          if (user.firstName.toLowerCase().includes(firstName.toLowerCase())) {
-            this.mainInfo[0].push(user);
+  search() {
+    const form = this.searchForm.value;
+    if (form.firstName !== '') {
+      this.mainCount = true;
+      this.http.get('http://localhost:3000/users').subscribe( users => {
+        this.searchUsers = users;
+        this.mainInfo = [];
+        this.searchUsers = this.searchUsers.filter( user => {
+          if (user.firstName.includes(form.firstName)) {
+            this.mainInfo = [ ...this.mainInfo, ...user ];
           }
         });
       });
     }
-    if (lastName !== '') {
-      const searchUsers = [];
-      this.count = 1;
-      this.http.get('http://localhost:3000/users').subscribe( elem => {
-        searchUsers.push(elem);
-        this.mainInfo[0] = [];
-        searchUsers[0].filter( user => {
-          if (user.lastName.toLowerCase().includes(lastName.toLowerCase())) {
-            this.mainInfo[0].push(user);
+
+    if (form.lastName !== '') {
+      this.mainCount = true;
+      this.http.get('http://localhost:3000/users').subscribe( users => {
+        this.searchUsers = users;
+        this.mainInfo = [];
+        this.searchUsers = this.searchUsers.filter( user => {
+          if (user.lastName.includes(form.lastName)) {
+            this.mainInfo = [ ...this.mainInfo, ...user ];
           }
         });
       });
     }
-    if (userName !== '') {
-      const searchUsers = [];
-      this.count = 1;
-      this.http.get('http://localhost:3000/users').subscribe( elem => {
-        searchUsers.push(elem);
-        this.mainInfo[0] = [];
-        searchUsers[0].filter( user => {
-          if (user.userName.toLowerCase().includes(userName.toLowerCase())) {
-            this.mainInfo[0].push(user);
+    if (form.userName !== '') {
+      this.mainCount = true;
+      this.http.get('http://localhost:3000/users').subscribe( users => {
+        this.searchUsers = users;
+        this.mainInfo = [];
+        this.searchUsers = this.searchUsers.filter( user => {
+          if (user.userName.includes(form.userName)) {
+            this.mainInfo = [ ...this.mainInfo, ...user ];
           }
         });
       });
     }
-    if (email !== '') {
-      const searchUsers = [];
-      this.count = 1;
-      this.http.get('http://localhost:3000/users').subscribe( elem => {
-        searchUsers.push(elem);
-        this.mainInfo[0] = [];
-        searchUsers[0].filter( user => {
-          if (user.email.toLowerCase().includes(email.toLowerCase())) {
-            this.mainInfo[0].push(user);
+    if (form.email !== '') {
+      this.mainCount = true;
+      this.http.get('http://localhost:3000/users').subscribe( users => {
+        this.searchUsers = users;
+        this.mainInfo = [];
+        this.searchUsers = this.searchUsers.filter( user => {
+          if (user.email.includes(form.email)) {
+            this.mainInfo = [ ...this.mainInfo, ...user ];
           }
         });
       });
     }
-    if (phone !== '') {
-      const searchUsers = [];
-      this.count = 1;
-      this.http.get('http://localhost:3000/users').subscribe( elem => {
-        searchUsers.push(elem);
-        this.mainInfo[0] = [];
-        searchUsers[0].filter( user => {
-          if (user.phone.toLowerCase().includes(phone.toLowerCase())) {
-            this.mainInfo[0].push(user);
+    if (form.phone !== '') {
+      this.mainCount = true;
+      this.http.get('http://localhost:3000/users').subscribe( users => {
+        this.searchUsers = users;
+        this.mainInfo = [];
+        this.searchUsers = this.searchUsers.filter( user => {
+          if (user.phone.includes(form.phone)) {
+            this.mainInfo = [ ...this.mainInfo, ...user ];
           }
         });
       });
     }
-    this.addressCount = 0;
+    this.addressCount = false;
+  }
+  clear() {
+    this.mainCount = false;
+    this.addressCount = false;
+    this.mainInfo = [];
+  
+    this.searchForm.value.firstName = '';
+    this.searchForm.value.lastName = '';
+    this.searchForm.value.userName = '';
+    this.searchForm.value.email = '';
+    this.searchForm.value.phone = '';
+
   }
   getCountry(): void {
     this.globalService.getCountries().subscribe(
@@ -160,61 +166,6 @@ export class SearchComponent implements OnInit {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- // this.count = 1;
-    // const param = [firstName, lastName, userName, email, phone];
-    // const search = [];
-    // param.forEach( parametr => {
-    //   if (parametr !== '') {
-    //     search.push(parametr);
-    //   }
-    // });
-
-    // this.allUsers = this.mainInfo[0];
-
-    // let filterUsers = [];
-    // search.forEach( param => {
-    //     if (filterUsers === []) {
-    //       this.allUsers.forEach( user => {
-    //         if (user.firstName.toLowerCase().includes(firstName.toLowerCase())) {
-    //           this.mainInfo[0].push(user);
-    //         }
-    //       });
-    //     }
-    // });
-
-
-
-
 
 
 
