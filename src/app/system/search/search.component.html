@@ -1,5 +1,5 @@
 <div class="block">
-  <form [formGroup] = "searchForm" (ngSubmit)="search()">
+  <form [formGroup] = "searchForm">
     <div class="form-wrap1">
       <div class="form-group col-lg-6 col-md-6 col-sm-12">
         <mat-form-field class="example-full-width inp-wrap">
@@ -31,12 +31,12 @@
     </div>
     <div class="wrapper">
       <button mat-raised-button color="basic" (click)="clear()">Clear</button> 
-      <button mat-raised-button color="primary" >Search</button> 
+      <button mat-raised-button color="primary" (click)="search()">Search</button> 
     </div>
   </form>
 </div>
 
-<table  id="main"  mat-table #table [dataSource]="mainInfo" class="mat-elevation-z8" *ngIf="mainCount !== false">
+<table  id="main"  mat-table #table [dataSource]="mainInfo" class="mat-elevation-z8" *ngIf="mainInfoBlock !== false">
   <ng-container matColumnDef="first-name">
     <th mat-header-cell *matHeaderCellDef>First name:</th>
     <td mat-cell *matCellDef="let element" (click)="rowClick(element)">{{element.firstName}}</td>
@@ -73,7 +73,7 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<table mat-table #secondTable [dataSource]="userAddresses"  id="hTable" class="mat-elevation-z8"  *ngIf="addressCount !== false || currentUser === []">
+<table mat-table #secondTable [dataSource]="userAddresses"  id="hTable" class="mat-elevation-z8"  *ngIf="addressInfoBlock !== false || currentUser === []">
   <ng-container matColumnDef="first-name">
     <th mat-header-cell *matHeaderCellDef>Address type:</th>
     <td mat-cell *matCellDef="let element">{{ element.type }}:</td>
@@ -109,7 +109,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<button id="newAddress" *ngIf="addressCount !== false" mat-raised-button color="basic" (click)="newAddressModal('addAddress', element)">add new address</button> 
+<button id="newAddress" *ngIf="addressInfoBlock !== false" mat-raised-button color="basic" (click)="newAddressModal('addAddress', element)">add new address</button> 
 
 
 

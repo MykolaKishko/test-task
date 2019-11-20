@@ -1,4 +1,6 @@
-<div class="main" *ngIf="displayMainInfoBlock === true">
+<div class="wrapper">
+  <h3><span routerLink="/home">Home</span> / <span routerLink="/registration">Registration</span> /</h3>
+  <div class="main" *ngIf="displayMainInfoBlock === true">
     <form class="mainForm" [formGroup] = "mainForm" (ngSubmit)="next()">
       <div class="form-group">
         <label for="firstName">First name:</label>
@@ -124,23 +126,26 @@
     </div>
   </div>
   <div class="info" *ngIf="displayPreviewModal === true">
-      <div class="wrap">
-        <h4>User name: {{newUser.userName}}</h4>
-        <h4>First name: {{newUser.firstName}}</h4>
-        <h4>Last name: {{newUser.lastName}}</h4>
-        <h4>Your email: {{newUser.email}}</h4>
-        <h4>Your pasword: {{newUser.password}}</h4>
-        <h4>Your phone number: {{newUser.phone}}</h4>
-        <ul *ngFor="let address of newUser.address">
-          <h4>{{ address.type }}:</h4>
-          <li>Country: {{ address.country }}</li>
-          <li>City: {{ address.city }}</li>
-          <li>Post coce: {{ address.code }}</li>
-        </ul>
-        <h6 class="more" (click)="addNewAddress()">Add another address</h6>
-        <div class="btn">
-          <button mat-raised-button (click)="cancel()">Cancel</button>
-          <button mat-raised-button color="primary" (click)="save()">Save</button>
-        </div>
-      </div>
+    <h4>User name: {{newUser.userName}}</h4>
+    <h4>First name: {{newUser.firstName}}</h4>
+    <h4>Last name: {{newUser.lastName}}</h4>
+    <h4>Your email: {{newUser.email}}</h4>
+    <h4>Your pasword: {{newUser.password}}</h4>
+    <h4>Your phone number: {{newUser.phone}}</h4>
+    <ul *ngFor="let address of newUser.address">
+      <h4>{{ address.type }}:</h4>
+      <li>Country: {{ address.country }}</li>
+      <li>City: {{ address.city }}</li>
+      <li>Post coce: {{ address.code }}</li>
+    </ul>
+    <h6 class="more" (click)="addNewAddress()">Add another address</h6>
+    <div class="btn">
+      <button mat-raised-button (click)="cancel()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="save()">Save</button>
     </div>
+  </div>
+</div>
+
+
+
+

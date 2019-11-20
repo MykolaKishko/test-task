@@ -7,14 +7,14 @@ import { Users } from 'src/app/shared/models/users';
   providedIn: 'root'
 })
 
-export class QueriesService {
+export class RequestionService {
 
   URL = 'http://localhost:3000/users';
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<object> {
-    return this.http.get(this.URL);
+  getUsers(): Observable<Users[]> {
+    return this.http.get<Users[]>(this.URL) ;
   }
   deleteUser(id: number): Observable<object> {
     const url = `${this.URL}/${id}`;
@@ -23,24 +23,9 @@ export class QueriesService {
   addNewUser( obj: Users ): Observable<object> {
     return this.http.post( this.URL, obj);
   }
-  editUser( userId: number, obj: object) {
-    const url = `${this.URL}/${userId}`;
-    this.http.delete(url).subscribe();
-    this.http.post( this.URL, obj ).subscribe();
-  }
-  deleteAddress( userId: number, user: object ) {
+  updateUser( userId: number, user: object ) {
     const url = `${this.URL}/${userId}`;
     this.http.delete(url).subscribe();
     this.http.post(this.URL, user).subscribe();
-  }
-  editAddress( userId: number, user: object ) {
-    const url = `${this.URL}/${userId}`;
-    this.http.delete(url).subscribe();
-    this.http.post(this.URL, user).subscribe();
-  }
-  addAddress( userId: number, obj: object) {
-    const url = `${this.URL}/${userId}`;
-    this.http.delete(url).subscribe();
-    this.http.post(this.URL, obj).subscribe();
   }
 }

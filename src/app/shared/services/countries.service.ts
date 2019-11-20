@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 
-export class GlobalService {
+export class CountriesService {
 
   constructor(private http: HttpClient) {}
 

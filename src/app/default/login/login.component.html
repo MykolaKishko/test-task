@@ -1,6 +1,6 @@
 <div class="wrap">
   <div class="login-card">
-    <form [formGroup] = "form" (ngSubmit)="logIn()">
+    <form [formGroup] = "form">
       <i class="fas fa-user-tie"></i>
       <div class="form-group">
         <label for="userName">User name:</label>
@@ -22,8 +22,7 @@
           <span *ngIf="form.get('password')['errors']['minlength']">Minimum characters 5! </span>
         </span>
       </div>
-      <button mat-raised-button color="primary" type="submit"   [disabled]="form.invalid">Log in</button> 
-      <span>{{ message }}</span>
+      <button mat-raised-button color="primary" type="submit" (click)= "logIn()"  [disabled]="form.invalid">Log in</button>
     </form>
   </div>
 </div>

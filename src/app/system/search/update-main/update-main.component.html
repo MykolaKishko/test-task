@@ -1,6 +1,6 @@
 <div class="pop-modal" *ngIf="action === 'updateUser'">
   <div class="wrap" id="main">  
-    <form [formGroup] = "editForm" (ngSubmit)="editMain()">
+    <form [formGroup] = "editUserForm" (ngSubmit)="editUser()">
         <div class="form-group">
           <label for="firstName">First name:</label>
           <mat-form-field class="example-full-width inp-wrap">
@@ -25,7 +25,7 @@
         <div class="form-group">
             <label for="userName">User name:</label>
             <mat-form-field class="example-full-width inp-wrap">
-              <input matInput  id="userName" type="text"  formControlName="userName"  >
+              <input matInput  id="userName" type="text"  formControlName="userName">
             </mat-form-field>
             <mat-error *ngIf="editForm.get('userName').invalid && editForm.get('userName').touched">
               <mat-error *ngIf="editForm.get('userName')['errors']['required']">The input cannot be empty!</mat-error>

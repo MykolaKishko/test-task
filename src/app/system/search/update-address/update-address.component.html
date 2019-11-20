@@ -1,7 +1,7 @@
 <div class="pop-modal" *ngIf="action === 'updateAddress'">
   <div class="wrap" id="address">
     <div class="address">
-      <form [formGroup] = "firstForm" id="firstForm">
+      <form [formGroup] = "addressForm" id="firstForm">
         <h2>Edit Address:</h2>    
         <div class="form-group">
           <mat-form-field>
@@ -34,7 +34,7 @@
       </form>
       
       <div class="btn" id="btn">
-        <button mat-raised-button (click)="closeAddrModal()">Cancel</button>
+        <button mat-raised-button (click)="closeAddressModal()">Cancel</button>
         <button mat-raised-button color="primary" (click)="editAddress()"  [disabled]="firstForm.invalid">Save</button>
       </div>
     </div>

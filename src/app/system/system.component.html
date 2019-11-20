@@ -1,7 +1,7 @@
 <header class="bg-primary">
     <div class="container">
         <div class="wrap">
-        <i class="fas fa-hamburger" (click)="slide()"></i>
+        <i class="fas fa-hamburger" (click)="leftBar()"></i>
         <h1 [routerLink]="['/system', 'userInfo']">Test task</h1>
         <button mat-raised-button routerLink="/home" class="logout" (click)="logOut()">Log out</button>
         </div>
@@ -9,7 +9,7 @@
 </header>
 <section class="content">
     <div class="container">
-        <div class="slide" id="slide" (click)="hideSlide()" *ngIf="show === true">
+        <div class="slide" id="slide" (click)="leftBar()" *ngIf="show === true">
             <ul>
                 <li routerLinkActive="active" [routerLink] = "['/system', 'userInfo']">Home</li>
                 <li routerLinkActive="active" [routerLink] = "['/system', 'search']">Search</li>

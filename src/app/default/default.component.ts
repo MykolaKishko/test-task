@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'wfm-auth',
-    templateUrl: './auth.component.html'
-
+    templateUrl: './default.component.html'
 })
 
-export class AuthComponent implements OnInit {
+export class DefaultComponent implements OnInit {
 
     constructor( private router: Router ) {}
 

@@ -36,15 +36,16 @@
       "firstName": "Mykola",
       "lastName": "Kishko",
       "userName": "mykola221",
+      "email": "ac672169@gmail.com",
       "phone": "0505934900",
-      "email": "mykola221@gmail.com",
-      "password": "zzzzz",
+      "password1": "22222",
+      "password": "22222",
       "address": [
         {
           "type": "Shipping address",
-          "country": "Cape Verde",
-          "city": "Lviv",
-          "code": 55555,
+          "country": "India",
+          "city": "Aaaa",
+          "code": 11111,
           "id": 1
         }
       ],

@@ -16,7 +16,7 @@ export class Users {
     address: Address[];
 }
 
-export class NewUser {
+export interface Response {
     firstName: string;
     lastName: string;
     userName: string;
@@ -25,3 +25,10 @@ export class NewUser {
     password: string;
     address: Address[];
 }
+
+
+
+
+
+
+

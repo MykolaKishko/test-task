@@ -1,7 +1,7 @@
 import { State } from '@ngxs/store';
 
 import { Users } from 'src/app/shared/models/users';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @State<Users>({

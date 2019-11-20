@@ -1,13 +1,13 @@
 <div class="pop-modal">
   <div class="wrap" id="address">
     <div class="address">  
-      <form [formGroup] = "secondForm">
+      <form [formGroup] = "addressForm">
         <h2>Add new address:</h2>
         <mat-form-field>
-          <mat-select #qq formControlName="select" [(ngModel)]="sel1" (onChange)="select()" placeholder="Address type">
-            <mat-option value="hAddress">Home address</mat-option>
-            <mat-option value="sAddress">Shipping address</mat-option>
-            <mat-option value="bAddress">Billing address</mat-option>
+          <mat-select #qq formControlName="type" (onChange)="select()" placeholder="Address type">
+            <mat-option value="Home address">Home address</mat-option>
+            <mat-option value="Shipping address">Shipping address</mat-option>
+            <mat-option value="Billing address">Billing address</mat-option>
           </mat-select>
         </mat-form-field>
     
@@ -24,24 +24,24 @@
           <mat-form-field class="example-full-width inp-wrap">
             <input matInput type="text" formControlName="city" placeholder="City">
           </mat-form-field>
-          <mat-error *ngIf="secondForm.get('city').invalid && secondForm.get('city').touched">
-            <mat-error *ngIf="secondForm.get('city')['errors']['required']">The input cannot be empty!</mat-error>
-            <mat-error *ngIf="secondForm.get('city')['errors']['cityError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
+          <mat-error *ngIf="addressForm.get('city').invalid && addressForm.get('city').touched">
+            <mat-error *ngIf="addressForm.get('city')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="addressForm.get('city')['errors']['cityError']">Must start with a capital letter, no more than 15 letters long!</mat-error>
           </mat-error> 
         </div>
         <div class="form-group">
           <mat-form-field class="example-full-width inp-wrap">
             <input matInput type="number" formControlName="code" placeholder="Postal Code">
           </mat-form-field>
-          <mat-error *ngIf="secondForm.get('code').invalid && secondForm.get('code').touched">
-            <mat-error *ngIf="secondForm.get('code')['errors']['required']">The input cannot be empty!</mat-error>
-            <mat-error *ngIf="secondForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length!</mat-error>
+          <mat-error *ngIf="addressForm.get('code').invalid && addressForm.get('code').touched">
+            <mat-error *ngIf="addressForm.get('code')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="addressForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length!</mat-error>
           </mat-error>  
         </div>
       </form>
       <div class="btn" id="btn">
         <button mat-raised-button mat-dialog-close>Cancel</button>
-        <button mat-raised-button color="primary" (click)="addNewAddr()"  [disabled]="secondForm.invalid">Save</button>
+        <button mat-raised-button color="primary" (click)="addNewAddr()"  [disabled]="addressForm.invalid">Save</button>
       </div>
     </div>
   </div> 

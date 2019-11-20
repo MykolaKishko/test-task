@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { GlobalService } from '../shared/services/countries.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { CountriesService } from '../shared/services/countries.service';
 
 @Component({
     selector: 'wfm-system',
@@ -13,17 +13,14 @@ export class SystemComponent implements OnInit  {
     user = JSON.parse(window.localStorage.User);
     show = false;
 
-    constructor( private authService: AuthService, private globalservice: GlobalService ) {}
+    constructor( private authService: AuthService, private countriesService: CountriesService ) {}
 
     ngOnInit() {}
 
     logOut() {
         this.authService.logout();
     }
-    slide() {
-        this.show = true;
-    }
-    hideSlide() {
-        this.show = false;
+    leftBar() {
+        this.show = !this.show;
     }
 }

@@ -16,12 +16,12 @@ import { Countries } from 'src/app/shared/models/countries';
 import { Users } from 'src/app/shared/models/users';
 
 @Component({
-  selector: 'app-create-user',
-  templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss']
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss']
 })
 
-export class CreateUserComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
 
   mainForm: FormGroup;
   addressForm: FormGroup;
@@ -36,7 +36,7 @@ export class CreateUserComponent implements OnInit {
     private countriesService: CountriesService,
     private router: Router,
     private requestionService: RequestionService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.displayMainInfoBlock = true;
@@ -56,7 +56,7 @@ export class CreateUserComponent implements OnInit {
       type: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required, cityValidator]),
-      code: new FormControl('', [Validators.required, codeValidator])
+      code: new FormControl('', [Validators.required, codeValidator]),
     });
   }
 
@@ -92,7 +92,7 @@ export class CreateUserComponent implements OnInit {
   }
   save() {
     this.requestionService.addNewUser(this.newUser).subscribe();
-    this.router.navigate(['/system', 'userInfo']);
+    this.router.navigate(['/home']);
   }
   backToMain() {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;

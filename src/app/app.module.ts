@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './default/default.module';
 import { SystemModule } from './system/system.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module';
@@ -15,7 +15,7 @@ import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsDispatchPluginModule} from '@ngxs-labs/dispatch-decorator';
 
 
-import { AuthService } from './shared/services/auth.service';
+import { AuthService } from './auth/auth.service';
 import { AppComponent } from './app.component';
 import { UpdateAddressComponent } from './system/search/update-address/update-address.component';
 import { UpdateMainComponent } from './system/search/update-main/update-main.component';
