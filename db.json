@@ -88,6 +88,25 @@
         }
       ],
       "id": 5
+    },
+    {
+      "firstName": "Addsf",
+      "lastName": "Kishko",
+      "userName": "mykola221",
+      "email": "ac672169@gmail.com",
+      "phone": "0505934900",
+      "password1": "55555",
+      "password": "55555",
+      "address": [
+        {
+          "type": "Shipping address",
+          "country": "Afghanistan",
+          "city": "Adfgh",
+          "code": 55555,
+          "id": 1
+        }
+      ],
+      "id": 6
     }
   ],
   "authUser": [
