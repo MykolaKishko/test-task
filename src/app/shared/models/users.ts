@@ -16,6 +16,16 @@ export class Users {
     address: Address[];
 }
 
+export class AuthUser {
+    firstName: string;
+    lastName: string;
+    userName: string;
+    phone: string;
+    email: string;
+    password: string;
+    address: Address[];
+}
+
 export interface Response {
     firstName: string;
     lastName: string;

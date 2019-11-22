@@ -16,9 +16,9 @@
           <mat-form-field class="example-full-width inp-wrap">
             <input matInput type="text" formControlName="city" placeholder="City">
           </mat-form-field>
-          <mat-error *ngIf="firstForm.get('city').invalid && firstForm.get('city').touched">
-            <mat-error *ngIf="firstForm.get('city')['errors']['required']">The input cannot be empty!</mat-error>
-            <mat-error *ngIf="firstForm.get('city')['errors']['cityError']">Only numbers, 5 characters in length!</mat-error>
+          <mat-error *ngIf="addressForm.get('city').invalid && addressForm.get('city').touched">
+            <mat-error *ngIf="addressForm.get('city')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="addressForm.get('city')['errors']['cityError']">Only numbers, 5 characters in length!</mat-error>
           </mat-error> 
         </div>
     
@@ -26,16 +26,16 @@
           <mat-form-field class="example-full-width inp-wrap">
             <input matInput type="number" formControlName="code" placeholder="Postal Code">
           </mat-form-field>
-          <mat-error *ngIf="firstForm.get('code').invalid && firstForm.get('code').touched">
-            <mat-error *ngIf="firstForm.get('code')['errors']['required']">The input cannot be empty!</mat-error>
-            <mat-error *ngIf="firstForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length!</mat-error>
+          <mat-error *ngIf="addressForm.get('code').invalid && addressForm.get('code').touched">
+            <mat-error *ngIf="addressForm.get('code')['errors']['required']">The input cannot be empty!</mat-error>
+            <mat-error *ngIf="addressForm.get('code')['errors']['codeError']">Only numbers, 5 characters in length!</mat-error>
           </mat-error> 
         </div>
       </form>
-      
+    
       <div class="btn" id="btn">
         <button mat-raised-button (click)="closeAddressModal()">Cancel</button>
-        <button mat-raised-button color="primary" (click)="editAddress()"  [disabled]="firstForm.invalid">Save</button>
+        <button mat-raised-button color="primary" (click)="editAddress()"  [disabled]="addressForm.invalid">Save</button>
       </div>
     </div>
   </div> 

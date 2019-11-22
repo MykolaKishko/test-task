@@ -38,18 +38,90 @@
       "userName": "mykola221",
       "email": "ac672169@gmail.com",
       "phone": "0505934900",
-      "password1": "22222",
-      "password": "22222",
+      "password1": "zzzzz",
+      "password": "zzzzz",
       "address": [
         {
           "type": "Shipping address",
-          "country": "India",
+          "country": "Japan",
           "city": "Aaaa",
           "code": 11111,
           "id": 1
         }
       ],
-      "id": 2
+      "id": 3
+    },
+    {
+      "firstName": "Addsf",
+      "lastName": "Kishko",
+      "userName": "mykola221",
+      "email": "ac672169@gmail.com",
+      "phone": "0505934900",
+      "password1": "55555",
+      "password": "55555",
+      "address": [
+        {
+          "type": "Shipping address",
+          "country": "Bouvet Island",
+          "city": "Wffff",
+          "code": 11111,
+          "id": 1
+        }
+      ],
+      "id": 4
+    },
+    {
+      "firstName": "Addsf",
+      "lastName": "Kishko",
+      "userName": "mykola221",
+      "email": "ac672169@gmail.com",
+      "phone": "0505934900",
+      "password1": "55555",
+      "password": "55555",
+      "address": [
+        {
+          "type": "Shipping address",
+          "country": "Barbados",
+          "city": "Adfg",
+          "code": 55555,
+          "id": 1
+        }
+      ],
+      "id": 5
+    }
+  ],
+  "authUser": [
+    {
+      "firstName": "admin",
+      "lastName": "admin",
+      "userName": "admin",
+      "phone": "0505934900",
+      "email": "mykola221@gmail.com",
+      "password": "000000",
+      "address": [
+        {
+          "type": "Home address",
+          "country": "Ukraine",
+          "city": "Lviv",
+          "code": 45654,
+          "id": 1
+        },
+        {
+          "type": "Shipping address",
+          "country": "Ukraine",
+          "city": "Lviv",
+          "code": 45654,
+          "id": 2
+        },
+        {
+          "type": "Billing address",
+          "country": "Ukraine",
+          "city": "Herson",
+          "code": 45654,
+          "id": 3
+        }
+      ],
+      "id": 1
     }
   ]
 }

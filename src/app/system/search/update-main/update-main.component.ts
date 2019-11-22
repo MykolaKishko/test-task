@@ -52,7 +52,7 @@ export class UpdateMainComponent implements OnInit {
       err => err
     );
   }
-  editUser() {
+  editUser(): void {
     this.data.users = this.data.users.filter(user => user.id !== this.data.user.id);
     const editUser = this.editUserForm.value;
     editUser.address = [...this.data.user.address];
@@ -60,12 +60,12 @@ export class UpdateMainComponent implements OnInit {
     this.requestionService.updateUser( this.data.user.id, editUser);
     this.dialog.closeAll();
   }
-  removeUser() {
+  removeUser(): void {
     this.data.users = this.data.users.filter(user => user.id !== this.data.user.id);
     this.requestionService.deleteUser(this.data.user.id).subscribe();
     this.dialog.closeAll();
   }
-  closeMainModal() {
+  closeMainModal(): void {
     this.dialog.closeAll();
   }
 }

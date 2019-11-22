@@ -14,6 +14,10 @@ import {
 import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
 import { Users } from 'src/app/shared/models/users';
+import { Store } from '@ngxs/store';
+import { CreateUser } from 'src/app/store/action/users.action';
+
+
 
 @Component({
   selector: 'app-create-user',
@@ -30,18 +34,17 @@ export class CreateUserComponent implements OnInit {
   displayAddressInfoBlock: boolean;
   displayPreviewModal: boolean;
   countries: Countries[];
-  displayNewAddressTitle: boolean;
 
   constructor(
     private countriesService: CountriesService,
     private router: Router,
-    private requestionService: RequestionService
+    private requestionService: RequestionService,
+    private store: Store
   ) {}
 
   ngOnInit() {
     this.displayMainInfoBlock = true;
     this.displayPreviewModal = false;
-    this.displayNewAddressTitle = false;
     this.getCountry();
     this.mainForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, firstNameValidator]),
@@ -60,7 +63,7 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  next() {
+  next(): void {
     this.newUser =  this.mainForm.value;
     this.newUser.address = [];
     this.displayMainInfoBlock = false;
@@ -72,29 +75,30 @@ export class CreateUserComponent implements OnInit {
       err => err
     );
   }
-  addNewAddress() {
+  addNewAddress(): void {
     this.addressForm.reset();
     this.displayPreviewModal = false;
     this.displayAddressInfoBlock = true;
   }
-  newUserPreview() {
+  newUserPreview(): void {
     const newAddress = this.addressForm.value;
     newAddress.id = this.newUser.address.length + 1;
     this.newUser.address = [...this.newUser.address, ...newAddress];
     this.displayAddressInfoBlock = false;
     this.displayPreviewModal = true;
   }
-  cancel() {
+  cancel(): void {
     this.displayPreviewModal = false;
     this.addressForm.reset();
     this.mainForm.reset();
     this.displayMainInfoBlock = true;
   }
-  save() {
+  save(): void {
     this.requestionService.addNewUser(this.newUser).subscribe();
+    this.store.dispatch(new CreateUser([this.newUser]));
     this.router.navigate(['/system', 'userInfo']);
   }
-  backToMain() {
+  backToMain(): void {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;
     this.displayMainInfoBlock = !this.displayMainInfoBlock;
   }

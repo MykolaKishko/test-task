@@ -1,26 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
-import { CountriesService } from '../shared/services/countries.service';
+import { Store } from '@ngxs/store';
+import { LogoutUser } from '../store/action/login.action';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'wfm-system',
+    selector: 'app-system',
     templateUrl: './system.component.html',
     styleUrls: ['./system.component.scss']
 })
 
 export class SystemComponent implements OnInit  {
 
-    user = JSON.parse(window.localStorage.User);
     show = false;
 
-    constructor( private authService: AuthService, private countriesService: CountriesService ) {}
+    constructor( private store: Store, private router: Router ) {}
 
     ngOnInit() {}
 
-    logOut() {
-        this.authService.logout();
+    logOut(): void {
+        this.store.dispatch(new LogoutUser());
     }
-    leftBar() {
+    leftBar(): void {
         this.show = !this.show;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

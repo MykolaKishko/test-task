@@ -30,7 +30,6 @@ export class RegistrationComponent implements OnInit {
   displayAddressInfoBlock: boolean;
   displayPreviewModal: boolean;
   countries: Countries[];
-  displayNewAddressTitle: boolean;
 
   constructor(
     private countriesService: CountriesService,
@@ -41,7 +40,6 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.displayMainInfoBlock = true;
     this.displayPreviewModal = false;
-    this.displayNewAddressTitle = false;
     this.getCountry();
     this.mainForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, firstNameValidator]),
@@ -60,7 +58,7 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  next() {
+  next(): void {
     this.newUser =  this.mainForm.value;
     this.newUser.address = [];
     this.displayMainInfoBlock = false;
@@ -72,29 +70,29 @@ export class RegistrationComponent implements OnInit {
       err => err
     );
   }
-  addNewAddress() {
+  addNewAddress(): void {
     this.addressForm.reset();
     this.displayPreviewModal = false;
     this.displayAddressInfoBlock = true;
   }
-  newUserPreview() {
+  newUserPreview(): void {
     const newAddress = this.addressForm.value;
     newAddress.id = this.newUser.address.length + 1;
     this.newUser.address = [...this.newUser.address, ...newAddress];
     this.displayAddressInfoBlock = false;
     this.displayPreviewModal = true;
   }
-  cancel() {
+  cancel(): void {
     this.displayPreviewModal = false;
     this.addressForm.reset();
     this.mainForm.reset();
     this.displayMainInfoBlock = true;
   }
-  save() {
+  save(): void {
     this.requestionService.addNewUser(this.newUser).subscribe();
     this.router.navigate(['/home']);
   }
-  backToMain() {
+  backToMain(): void {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;
     this.displayMainInfoBlock = !this.displayMainInfoBlock;
   }

@@ -1,5 +1,90 @@
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+// import { Users, AuthUser } from 'src/app/shared/models/users';
+// import { Select } from '@ngxs/store';
+// import { LoginState } from 'src/app/store/state/login.state';
+// import { Observable } from 'rxjs';
+// import { RequestionService } from 'src/app/shared/services/requests.service';
 
+
+// @Component({
+//   selector: 'app-user-info',
+//   templateUrl: './user-info.component.html',
+//   styleUrls: ['./user-info.component.scss']
+// })
+// export class UserInfoComponent implements OnInit {
+
+//   authUser: Users;
+
+//   constructor(private requestsService: RequestionService) { }
+
+//   ngOnInit() {
+//     this.requestsService.getAuthUsers().subscribe( users => {
+//       this.authUser = users[0];
+//     });
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { Users } from 'src/app/shared/models/users';
+import { Select } from '@ngxs/store';
+import { LoginState } from 'src/app/store/state/login.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-info',
@@ -8,10 +93,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserInfoComponent implements OnInit {
 
-  authUser = JSON.parse(window.localStorage.getItem('User'));
+  authUser: Users;
 
-  constructor( ) { }
+  @Select(LoginState.getUser) user$: Observable<any>;
 
-  ngOnInit() {}
+  constructor() { }
 
+  ngOnInit() {
+    this.user$.subscribe( user => {
+      this.authUser = user;
+    });
+  }
 }

@@ -9,12 +9,17 @@ import { Users } from 'src/app/shared/models/users';
 
 export class RequestionService {
 
+  users = [];
   URL = 'http://localhost:3000/users';
+  authURL = 'http://localhost:3000/authUser';
 
-  constructor(private http: HttpClient) {}
+  constructor( private http: HttpClient ) {}
 
+  getAuthUsers(): Observable<Users[]> {
+    return this.http.get<Users[]>(this.authURL);
+  }
   getUsers(): Observable<Users[]> {
-    return this.http.get<Users[]>(this.URL) ;
+    return this.http.get<Users[]>(this.URL);
   }
   deleteUser(id: number): Observable<object> {
     const url = `${this.URL}/${id}`;
@@ -23,9 +28,20 @@ export class RequestionService {
   addNewUser( obj: Users ): Observable<object> {
     return this.http.post( this.URL, obj);
   }
-  updateUser( userId: number, user: object ) {
+  updateUser( userId: number, user: object ): void {
     const url = `${this.URL}/${userId}`;
     this.http.delete(url).subscribe();
     this.http.post(this.URL, user).subscribe();
+  }
+  deleteAuthUser(): void {
+    this.getAuthUsers().subscribe( res => {
+      this.users = [...res];
+      this.users.map( authUser => {
+        this.http.delete(`${this.authURL}/${authUser.id}`).subscribe();
+      });
+    });
+  }
+  addAuthUser(user: object ): Observable<object> {
+    return this.http.post(this.authURL, user);
   }
 }

@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
 import { UpdateAddressComponent } from './system/search/update-address/update-address.component';
 import { UpdateMainComponent } from './system/search/update-main/update-main.component';
 import { NewAddressModalComponent } from './system/search/new-address-modal/new-address-modal.component';
-import { UserState } from './store/state/User.state';
+import { LoginState } from './store/state/login.state';
 import { CreateUserState } from './store/state/users.state';
 
 @NgModule({
@@ -36,8 +36,8 @@ import { CreateUserState } from './store/state/users.state';
     HttpClientModule,
     MaterialModule,
     NgxsModule.forRoot([
-      // UserState,
-      // CreateUserState
+      LoginState,
+      CreateUserState
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),

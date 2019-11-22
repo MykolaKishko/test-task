@@ -37,7 +37,7 @@ export class NewAddressModalComponent implements OnInit {
     });
   }
 
-  addNewAddr() {
+  addNewAddress(): void {
     this.addressForm.value.id = this.data.selectedUser.address.length + 1;
     this.data.users = this.data.users.map( user => {
       if (user.id === this.data.selectedUser.id) {

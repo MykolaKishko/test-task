@@ -8,6 +8,10 @@ import { NewAddressModalComponent } from './new-address-modal/new-address-modal.
 import { FormGroup, FormControl } from '@angular/forms';
 import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
+import { Store, Select } from '@ngxs/store';
+import { AddAllUsers, GetAllUsers } from 'src/app/store/action/users.action';
+import { CreateUserState } from 'src/app/store/state/users.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -27,18 +31,26 @@ export class SearchComponent implements OnInit {
   mainInfo = [];
   searchUsers = null;
 
+  user: Users;
+
+  @Select(CreateUserState.getUser) user$: Observable<any>;
+
   constructor(
     private countriesService: CountriesService,
     public dialog: MatDialog,
-    private requestionService: RequestionService
+    private requestionService: RequestionService,
+    private store: Store
   ) {}
 
   ngOnInit() {
     this.addressInfoBlock = false;
+
+
+    this.addAllUsers();
+    this.getData();
+
+
     this.getCountry();
-    this.requestionService.getUsers().subscribe(res => {
-      this.mainInfo = [...this.mainInfo, ...res];
-    });
     this.searchForm = new FormGroup({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
@@ -48,32 +60,42 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  openMainModal(action: string, user: Users) {
+  addAllUsers() {
+    this.store.dispatch(new AddAllUsers());
+  }
+
+  getData() {
+    this.requestionService.getUsers().subscribe(res => {
+      this.mainInfo = [...this.mainInfo, ...res];
+    });
+  }
+  openMainModal(action: string, user: Users): void {
     const users = this.mainInfo;
     this.dialog.open(UpdateMainComponent, {
       data: { user, action, users }
     });
   }
-  openAddressModal(action: string, address: Address) {
+
+  openAddressModal(action: string, address: Address): void {
     const users = this.mainInfo;
     const selectedUser = this.selectedUser;
     this.dialog.open(UpdateAddressComponent, {
       data: { address, action, users, selectedUser }
     });
   }
-  newAddressModal(action: string, address: Address) {
+  newAddressModal(action: string, address: Address): void {
     const users = this.mainInfo;
     const selectedUser = this.selectedUser;
     this.dialog.open(NewAddressModalComponent, {
       data: { address, action, users, selectedUser }
     });
   }
-  rowClick(user) {
+  rowClick(user): void {
     this.userAddresses = user.address;
     this.selectedUser = user;
     this.addressInfoBlock = true;
   }
-  search() {
+  search(): void {
     this.mainInfo = [];
     this.requestionService.getUsers().subscribe(users => {
       users.map(user => {
@@ -87,7 +109,7 @@ export class SearchComponent implements OnInit {
     this.addressInfoBlock = false;
     this.mainInfoBlock = true;
   }
-  clear() {
+  clear(): void {
     this.mainInfoBlock = false;
     this.addressInfoBlock = false;
     this.mainInfo = [];

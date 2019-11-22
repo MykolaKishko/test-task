@@ -37,10 +37,10 @@ export class UpdateAddressComponent implements OnInit {
     });
   }
 
-  closeAddressModal() {
+  closeAddressModal(): void {
     this.dialog.closeAll();
   }
-  editAddress() {
+  editAddress(): void {
     this.data.users = this.data.users.filter(user => user.id !== this.data.selectedUser.id);
     this.data.selectedUser.address = this.data.selectedUser.address.filter( address => address.id !== this.data.address.id);
     this.data.selectedUser.address = [ ...this.data.selectedUser.address, ...this.addressForm.value ];
@@ -48,7 +48,7 @@ export class UpdateAddressComponent implements OnInit {
     this.requestionService.updateUser( this.data.selectedUser.id, this.data.selectedUser );
     this.dialog.closeAll();
   }
-  removeAddress() {
+  removeAddress(): void {
     this.data.users = this.data.users.filter(user => user.id !== this.data.selectedUser.id);
     this.data.selectedUser.address = this.data.selectedUser.address.filter( address => address.id !== this.data.address.id);
     this.data.users = [...this.data.users, ...this.data.selectedUser.address];
