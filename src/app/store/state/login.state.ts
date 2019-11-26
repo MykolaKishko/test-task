@@ -30,22 +30,22 @@ export class LoginState {
 
   @Action(LogIn)
   loginUser(ctx: StateContext<LoginUserModelState>, { payload }: LogIn) {
-    return this.requestService.getUsers().pipe(
-    tap(users => {
-        users.map((res) => {
-          if (res.password === payload.password && res.userName === payload.userName) {
-            ctx.patchState({ authUser: res });
-            this.requestService.addAuthUser(res).subscribe();
-            this.authService.log();
-          }
-        });
-      })
-    );
+    return this.requestService.getUsers().subscribe( users => {
+      users.map( res => {
+        if (res.password === payload.password && res.userName === payload.userName) {
+          this.requestService.addAuthUser(res).subscribe();
+          this.authService.log();
+          ctx.patchState({ ...ctx, authUser: res });
+        }
+      });
+    });
   }
 
   @Action(LogoutUser)
-  logoutUser() {
+  logoutUser(ctx: StateContext<LoginUserModelState>) {
     this.authService.logout();
     this.requestService.deleteAuthUser();
+    ctx.setState({ authUser: null });
+
   }
 }

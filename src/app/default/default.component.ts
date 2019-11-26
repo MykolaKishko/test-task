@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'wfm-auth',
+    selector: 'app-default',
     templateUrl: './default.component.html'
 })
 

@@ -24,20 +24,3 @@ export class SystemComponent implements OnInit  {
         this.show = !this.show;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

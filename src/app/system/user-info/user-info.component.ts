@@ -82,9 +82,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Users } from 'src/app/shared/models/users';
-import { Select } from '@ngxs/store';
-import { LoginState } from 'src/app/store/state/login.state';
-import { Observable } from 'rxjs';
+import { RequestionService } from 'src/app/shared/services/requests.service';
 
 @Component({
   selector: 'app-user-info',
@@ -95,13 +93,15 @@ export class UserInfoComponent implements OnInit {
 
   authUser: Users;
 
-  @Select(LoginState.getUser) user$: Observable<any>;
-
-  constructor() { }
+  constructor(private requestService: RequestionService) { }
 
   ngOnInit() {
-    this.user$.subscribe( user => {
-      this.authUser = user;
+    this.getData();
+  }
+
+  getData() {
+    this.requestService.getUsers().subscribe(res => {
+      this.authUser = res[0];
     });
   }
 }

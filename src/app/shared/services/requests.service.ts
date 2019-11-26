@@ -18,6 +18,9 @@ export class RequestionService {
   getAuthUsers(): Observable<Users[]> {
     return this.http.get<Users[]>(this.authURL);
   }
+  addAuthUser(user: object ): Observable<object> {
+    return this.http.post(this.authURL, user);
+  }
   getUsers(): Observable<Users[]> {
     return this.http.get<Users[]>(this.URL);
   }
@@ -40,8 +43,5 @@ export class RequestionService {
         this.http.delete(`${this.authURL}/${authUser.id}`).subscribe();
       });
     });
-  }
-  addAuthUser(user: object ): Observable<object> {
-    return this.http.post(this.authURL, user);
   }
 }

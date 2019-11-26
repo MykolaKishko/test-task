@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CountriesService } from 'src/app/shared/services/countries.service';
-import { Router } from '@angular/router';
+import { CountriesService } from '../../shared/services/countries.service';
 import {
   passwordValidator,
   phoneNumberValidator,
@@ -12,8 +11,10 @@ import {
   codeValidator
 } from '../../shared/validators/validator';
 import { RequestionService } from 'src/app/shared/services/requests.service';
-import { Countries } from 'src/app/shared/models/countries';
+import { Countries } from '../../shared/models/countries';
 import { Users } from 'src/app/shared/models/users';
+import { Store } from '@ngxs/store';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-registration',
@@ -33,8 +34,8 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private countriesService: CountriesService,
-    private router: Router,
-    private requestionService: RequestionService
+    private requestionService: RequestionService,
+    private store: Store
   ) { }
 
   ngOnInit() {
@@ -76,9 +77,8 @@ export class RegistrationComponent implements OnInit {
     this.displayAddressInfoBlock = true;
   }
   newUserPreview(): void {
-    const newAddress = this.addressForm.value;
-    newAddress.id = this.newUser.address.length + 1;
-    this.newUser.address = [...this.newUser.address, ...newAddress];
+    this.addressForm.value.id = this.newUser.address.length + 1;
+    this.newUser.address = [...this.newUser.address, ...this.addressForm.value];
     this.displayAddressInfoBlock = false;
     this.displayPreviewModal = true;
   }
@@ -90,7 +90,7 @@ export class RegistrationComponent implements OnInit {
   }
   save(): void {
     this.requestionService.addNewUser(this.newUser).subscribe();
-    this.router.navigate(['/home']);
+    this.store.dispatch(new Navigate(['/home']));
   }
   backToMain(): void {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;

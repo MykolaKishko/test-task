@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CountriesService } from 'src/app/shared/services/countries.service';
-import { Router } from '@angular/router';
+import { CountriesService } from '../../shared/services/countries.service';
 import {
   passwordValidator,
   phoneNumberValidator,
@@ -11,13 +10,11 @@ import {
   cityValidator,
   codeValidator
 } from '../../shared/validators/validator';
-import { RequestionService } from 'src/app/shared/services/requests.service';
-import { Countries } from 'src/app/shared/models/countries';
+import { Countries } from '../../shared/models/countries';
 import { Users } from 'src/app/shared/models/users';
 import { Store } from '@ngxs/store';
-import { CreateUser } from 'src/app/store/action/users.action';
-
-
+import { CreateUser, AddAllUsers } from 'src/app/store/action/users.action';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   selector: 'app-create-user',
@@ -37,12 +34,11 @@ export class CreateUserComponent implements OnInit {
 
   constructor(
     private countriesService: CountriesService,
-    private router: Router,
-    private requestionService: RequestionService,
     private store: Store
   ) {}
 
   ngOnInit() {
+    this.store.dispatch(new AddAllUsers());
     this.displayMainInfoBlock = true;
     this.displayPreviewModal = false;
     this.getCountry();
@@ -94,9 +90,8 @@ export class CreateUserComponent implements OnInit {
     this.displayMainInfoBlock = true;
   }
   save(): void {
-    this.requestionService.addNewUser(this.newUser).subscribe();
-    this.store.dispatch(new CreateUser([this.newUser]));
-    this.router.navigate(['/system', 'userInfo']);
+    this.store.dispatch(new CreateUser(this.newUser));
+    this.store.dispatch(new Navigate(['/system/userInfo']));
   }
   backToMain(): void {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;

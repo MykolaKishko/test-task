@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CountriesService } from 'src/app/shared/services/countries.service';
+import { CountriesService } from '../../shared/services/countries.service';
 import { UpdateMainComponent } from './update-main/update-main.component';
 import { UpdateAddressComponent } from './update-address/update-address.component';
 import { MatDialog, MatTable } from '@angular/material';
@@ -9,7 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
 import { Store, Select } from '@ngxs/store';
-import { AddAllUsers, GetAllUsers } from 'src/app/store/action/users.action';
+import { AddAllUsers } from 'src/app/store/action/users.action';
 import { CreateUserState } from 'src/app/store/state/users.state';
 import { Observable } from 'rxjs';
 
@@ -44,12 +44,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.addressInfoBlock = false;
-
-
     this.addAllUsers();
     this.getData();
-
-
     this.getCountry();
     this.searchForm = new FormGroup({
       firstName: new FormControl(''),

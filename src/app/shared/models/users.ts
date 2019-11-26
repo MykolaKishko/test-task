@@ -13,7 +13,9 @@ export class Users {
     phone: string;
     email: string;
     password: string;
+    password1: string;
     address: Address[];
+    id: number;
 }
 
 export class AuthUser {

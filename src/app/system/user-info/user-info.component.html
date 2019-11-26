@@ -1,4 +1,4 @@
-<div class="wrap" >
+<div class="wrap" *ngIf="!!authUser">
   <div class="info">
     <h4>User name: {{ authUser.userName }}</h4>
     <h4>First name: {{ authUser.firstName }}</h4>

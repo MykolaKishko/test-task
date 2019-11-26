@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { CountriesService } from 'src/app/shared/services/countries.service';
+import { CountriesService } from '../../../shared/services/countries.service';
 import {
   firstNameValidator,
   emailValidator,
@@ -9,8 +9,9 @@ import {
 } from '../../../shared/validators/validator';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { RequestionService } from 'src/app/shared/services/requests.service';
-import { Countries } from 'src/app/shared/models/countries';
+import { Countries } from '../../../shared/models/countries';
+import { Store } from '@ngxs/store';
+import { DeleteUser, EditUser } from '../../../store/action/users.action';
 
 @Component({
   selector: 'app-update-main',
@@ -26,7 +27,7 @@ export class UpdateMainComponent implements OnInit {
 
   constructor(
     private countriesService: CountriesService,
-    private requestionService: RequestionService,
+    private store: Store,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UpdateMainComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -42,7 +43,8 @@ export class UpdateMainComponent implements OnInit {
       phone: new FormControl(this.data.user.phone, [Validators.required,  phoneNumberValidator]),
       password1: new FormControl(this.data.user.password, [Validators.required, Validators.minLength(5)]),
       password: new FormControl(this.data.user.password, [Validators.required, Validators.minLength(5), passwordValidator]),
-      address: new FormControl([])
+      address: new FormControl([]),
+      id: new FormControl(this.data.user.id)
     });
   }
 
@@ -57,12 +59,12 @@ export class UpdateMainComponent implements OnInit {
     const editUser = this.editUserForm.value;
     editUser.address = [...this.data.user.address];
     this.data.users = [ ...this.data.users, ...editUser];
-    this.requestionService.updateUser( this.data.user.id, editUser);
+    this.store.dispatch(new EditUser(editUser));
     this.dialog.closeAll();
   }
   removeUser(): void {
     this.data.users = this.data.users.filter(user => user.id !== this.data.user.id);
-    this.requestionService.deleteUser(this.data.user.id).subscribe();
+    this.store.dispatch(new DeleteUser(this.data.users, this.data.user.id));
     this.dialog.closeAll();
   }
   closeMainModal(): void {

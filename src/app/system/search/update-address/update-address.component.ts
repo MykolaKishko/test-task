@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { CountriesService } from 'src/app/shared/services/countries.service';
+import { CountriesService } from '../../../shared/services/countries.service';
 import { cityValidator, codeValidator } from '../../../shared/validators/validator';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
+import { Store } from '@ngxs/store';
+import { EditUser } from 'src/app/store/action/users.action';
 
 @Component({
   selector: 'app-update-address',
@@ -20,8 +21,8 @@ export class UpdateAddressComponent implements OnInit {
 
   constructor(
     private countriesService: CountriesService,
+    private store: Store,
     public dialog: MatDialog,
-    private requestionService: RequestionService,
     public dialogRef: MatDialogRef<UpdateAddressComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
@@ -44,15 +45,15 @@ export class UpdateAddressComponent implements OnInit {
     this.data.users = this.data.users.filter(user => user.id !== this.data.selectedUser.id);
     this.data.selectedUser.address = this.data.selectedUser.address.filter( address => address.id !== this.data.address.id);
     this.data.selectedUser.address = [ ...this.data.selectedUser.address, ...this.addressForm.value ];
-    this.data.users = [ ...this.data.users, ...this.data.selectedUser.address];
-    this.requestionService.updateUser( this.data.selectedUser.id, this.data.selectedUser );
+    this.data.users = [ ...this.data.users, ...this.data.selectedUser];
+    this.store.dispatch(new EditUser(this.data.selectedUser));
     this.dialog.closeAll();
   }
   removeAddress(): void {
     this.data.users = this.data.users.filter(user => user.id !== this.data.selectedUser.id);
     this.data.selectedUser.address = this.data.selectedUser.address.filter( address => address.id !== this.data.address.id);
-    this.data.users = [...this.data.users, ...this.data.selectedUser.address];
-    this.requestionService.updateUser(this.data.selectedUser.id, this.data.selectedUser);
+    this.data.users = [...this.data.users, ...this.data.selectedUser];
+    this.store.dispatch(new EditUser(this.data.selectedUser));
     this.dialog.closeAll();
   }
   getCountry(): void {

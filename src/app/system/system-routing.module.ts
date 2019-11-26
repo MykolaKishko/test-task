@@ -5,6 +5,7 @@ import { SearchComponent } from './search/search.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 
+
 const routes: Routes = [
     { path: 'system', component: SystemComponent, children: [
         { path: 'search', component: SearchComponent },
