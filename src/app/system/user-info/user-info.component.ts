@@ -100,7 +100,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   getData() {
-    this.requestService.getUsers().subscribe(res => {
+    this.requestService.getAuthUsers().subscribe(res => {
       this.authUser = res[0];
     });
   }

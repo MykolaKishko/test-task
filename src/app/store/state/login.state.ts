@@ -3,7 +3,6 @@ import { AuthUser } from 'src/app/shared/models/users';
 import { AuthService } from 'src/app/auth/auth.service';
 import { LogIn, LogoutUser } from '../action/login.action';
 import { RequestionService } from 'src/app/shared/services/requests.service';
-import { tap } from 'rxjs/operators';
 
 export class LoginUserModelState {
   authUser: AuthUser;
@@ -12,7 +11,7 @@ export class LoginUserModelState {
 @State<LoginUserModelState>({
   name: 'authUser',
   defaults: {
-  authUser: null
+    authUser: null
   }
 })
 
@@ -30,15 +29,10 @@ export class LoginState {
 
   @Action(LogIn)
   loginUser(ctx: StateContext<LoginUserModelState>, { payload }: LogIn) {
-    return this.requestService.getUsers().subscribe( users => {
-      users.map( res => {
-        if (res.password === payload.password && res.userName === payload.userName) {
-          this.requestService.addAuthUser(res).subscribe();
-          this.authService.log();
-          ctx.patchState({ ...ctx, authUser: res });
-        }
-      });
-    });
+    this.requestService.deleteAuthUser();
+    ctx.patchState({ ...ctx, authUser: payload });
+    this.authService.log();
+    this.requestService.addAuthUser(payload).subscribe();
   }
 
   @Action(LogoutUser)
@@ -46,6 +40,5 @@ export class LoginState {
     this.authService.logout();
     this.requestService.deleteAuthUser();
     ctx.setState({ authUser: null });
-
   }
 }
