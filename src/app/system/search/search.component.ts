@@ -1,23 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store, Select } from '@ngxs/store';
+import { MatDialog, MatTable } from '@angular/material';
+import { FormGroup, FormControl } from '@angular/forms';
+import { CreateUserState } from 'src/app/store/state/users.state';
 import { CountriesService } from '../../shared/services/countries.service';
 import { UpdateMainComponent } from './update-main/update-main.component';
 import { UpdateAddressComponent } from './update-address/update-address.component';
-import { MatDialog, MatTable } from '@angular/material';
 import { Users, Address } from 'src/app/shared/models/users';
 import { NewAddressModalComponent } from './new-address-modal/new-address-modal.component';
-import { FormGroup, FormControl } from '@angular/forms';
 import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
-import { Store, Select } from '@ngxs/store';
 import { AddAllUsers } from 'src/app/store/action/users.action';
-import { CreateUserState } from 'src/app/store/state/users.state';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
+
 export class SearchComponent implements OnInit {
   @ViewChild('table') table: MatTable<Users[]>;
 
@@ -30,7 +31,6 @@ export class SearchComponent implements OnInit {
   selectedUser: Users[];
   mainInfo = [];
   searchUsers = null;
-
   user: Users;
 
   @Select(CreateUserState.getUser) user$: Observable<any>;
@@ -59,7 +59,6 @@ export class SearchComponent implements OnInit {
   addAllUsers() {
     this.store.dispatch(new AddAllUsers());
   }
-
   getData() {
     this.requestionService.getUsers().subscribe(res => {
       this.mainInfo = [...this.mainInfo, ...res];
@@ -71,7 +70,6 @@ export class SearchComponent implements OnInit {
       data: { user, action, users }
     });
   }
-
   openAddressModal(action: string, address: Address): void {
     const users = this.mainInfo;
     const selectedUser = this.selectedUser;

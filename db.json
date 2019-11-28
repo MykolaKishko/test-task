@@ -59,38 +59,5 @@
       "id": 2
     }
   ],
-  "authUser": [
-    {
-      "firstName": "admin",
-      "lastName": "admin",
-      "userName": "admin",
-      "phone": "0505934900",
-      "email": "mykola221@gmail.com",
-      "password": "000000",
-      "address": [
-        {
-          "type": "Home address",
-          "country": "Ukraine",
-          "city": "Lviv",
-          "code": 45654,
-          "id": 1
-        },
-        {
-          "type": "Shipping address",
-          "country": "Ukraine",
-          "city": "Lviv",
-          "code": 45654,
-          "id": 2
-        },
-        {
-          "type": "Billing address",
-          "country": "Ukraine",
-          "city": "Herson",
-          "code": 45654,
-          "id": 3
-        }
-      ],
-      "id": 1
-    }
-  ]
+  "authUser": []
 }

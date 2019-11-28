@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { LogoutUser } from '../store/action/login.action';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-system',
@@ -13,7 +12,7 @@ export class SystemComponent implements OnInit  {
 
     show = false;
 
-    constructor( private store: Store, private router: Router ) {}
+    constructor( private store: Store ) {}
 
     ngOnInit() {}
 

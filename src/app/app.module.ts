@@ -8,10 +8,10 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsDispatchPluginModule } from '@ngxs-labs/dispatch-decorator';
+
 import { AuthService } from './auth/auth.service';
 import { DefaultModule } from './default/default.module';
 import { SystemModule } from './system/system.module';
-
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
 import { AppComponent } from './app.component';

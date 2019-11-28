@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { LogIn } from 'src/app/store/action/login.action';
 import { Navigate } from '@ngxs/router-plugin';
 import { Users } from 'src/app/shared/models/users';
+import { AddAllUsers } from 'src/app/store/action/users.action';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
       userName: new FormControl('admin', [Validators.required, Validators.minLength(5)]),
       password: new FormControl('000000', [Validators.required, Validators.minLength(5)])
     });
+    this.store.dispatch(new AddAllUsers());
   }
 
   logIn() {

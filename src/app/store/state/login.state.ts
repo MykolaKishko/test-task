@@ -29,7 +29,6 @@ export class LoginState {
 
   @Action(LogIn)
   loginUser(ctx: StateContext<LoginUserModelState>, { payload }: LogIn) {
-    this.requestService.deleteAuthUser();
     ctx.patchState({ ...ctx, authUser: payload });
     this.authService.log();
     this.requestService.addAuthUser(payload).subscribe();

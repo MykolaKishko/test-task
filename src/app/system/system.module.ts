@@ -13,7 +13,7 @@ import { NewAddressModalComponent } from './search/new-address-modal/new-address
 import { SharedModule } from '../shared/shared.module';
 import { SystemRoutingModule } from './system-routing.module';
 import { MaterialModule } from '../material/material.module';
-
+import { AuthGuard } from '../shared/services/auth.guard';
 
 @NgModule({
     imports: [
@@ -35,7 +35,8 @@ import { MaterialModule } from '../material/material.module';
         UpdateMainComponent,
         UpdateAddressComponent,
         NewAddressModalComponent
-    ]
+    ],
+    providers: [ AuthGuard ]
 })
 
 export class SystemModule {}

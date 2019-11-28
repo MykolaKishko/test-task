@@ -15,6 +15,7 @@ import { Countries } from '../../shared/models/countries';
 import { Users } from 'src/app/shared/models/users';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -35,7 +36,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private countriesService: CountriesService,
     private requestionService: RequestionService,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) { }
 
   ngOnInit() {
