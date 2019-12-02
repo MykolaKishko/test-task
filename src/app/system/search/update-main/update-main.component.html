@@ -1,6 +1,6 @@
 <div class="pop-modal" *ngIf="action === 'updateUser'">
   <div class="wrap" id="main">  
-    <form [formGroup] = "editUserForm" (ngSubmit)="editUser()">
+    <form [formGroup] = "editUserForm">
         <div class="form-group">
           <label for="firstName">First name:</label>
           <mat-form-field class="example-full-width inp-wrap">
@@ -80,21 +80,20 @@
             </mat-error> 
           </div>
         </div>
-      
         <div class="wrap">
-          <button mat-raised-button mat-dialog-close type="submit">Cancel</button>
-          <button mat-raised-button color="primary" class="bg-primary" type="submit"  [disabled]="editUserForm.invalid">Save</button>
+          <button mat-raised-button (click)="closeMainModal()" >Cancel</button>
+          <button mat-raised-button color="primary" class="bg-primary" (click)="editUser()"   [disabled]="editUserForm.invalid">Save</button>
         </div>
       </form>
   </div>
 </div>
 
 <div class="ask-modal" id="delete" *ngIf="action === 'deleteUser'">
-    <div class="wrap" id="del">
-      <h4>Are you sure?</h4>
-      <div class="block">
-        <button mat-raised-button mat-dialog-close >No</button>
-        <button mat-raised-button color="primary" class="removeUser" (click)="removeUser()" >Yes</button>
-      </div>
+  <div class="wrap" id="del">
+    <h4>Are you sure?</h4>
+    <div class="block">
+      <button mat-raised-button (click)="closeMainModal()">No</button>
+      <button mat-raised-button color="primary" class="removeUser" (click)="removeUser()" >Yes</button>
     </div>
   </div>
+</div>

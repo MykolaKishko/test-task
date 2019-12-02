@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
     users.map( user => {
       if (user.userName === this.form.value.userName && user.password === this.form.value.password) {
         this.store.dispatch(new LogIn(user));
-        this.store.dispatch(new Navigate(['/system/userInfo']));
+        setTimeout( () => {
+          this.store.dispatch(new Navigate(['/system/userInfo']));
+        }, 400);
       }
     });
   }

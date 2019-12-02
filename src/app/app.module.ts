@@ -20,6 +20,7 @@ import { UpdateMainComponent } from './system/search/update-main/update-main.com
 import { NewAddressModalComponent } from './system/search/new-address-modal/new-address-modal.component';
 import { LoginState } from './store/state/login.state';
 import { CreateUserState } from './store/state/users.state';
+import { SearchComponent } from './system/search/search.component';
 
 
 

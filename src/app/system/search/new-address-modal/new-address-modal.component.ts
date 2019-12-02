@@ -3,10 +3,9 @@ import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms'
 import { cityValidator, codeValidator } from '../../../shared/validators/validator';
 import { CountriesService } from 'src/app/shared/services/countries.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
 import { Store } from '@ngxs/store';
-import { EditUser } from 'src/app/store/action/users.action';
+import { EditUser, AddSelectedUser } from 'src/app/store/action/users.action';
 
 @Component({
   selector: 'app-new-address-modal',
@@ -24,7 +23,6 @@ export class NewAddressModalComponent implements OnInit {
     private countriesService: CountriesService,
     private store: Store,
     public dialog: MatDialog,
-    private requestionService: RequestionService,
     public dialogRef: MatDialogRef<NewAddressModalComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -46,6 +44,7 @@ export class NewAddressModalComponent implements OnInit {
       if (user.id === this.data.selectedUser.id) {
         user.address = [ ...user.address, ...this.addressForm.value ];
         this.store.dispatch(new EditUser(user));
+        this.store.dispatch(new AddSelectedUser(user));
       }
     });
     this.dialog.closeAll();

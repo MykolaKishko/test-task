@@ -72,7 +72,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
 <table mat-table #secondTable [dataSource]="userAddresses"  id="hTable" class="mat-elevation-z8"  *ngIf="addressInfoBlock !== false || currentUser === []">
   <ng-container matColumnDef="first-name">
     <th mat-header-cell *matHeaderCellDef>Address type:</th>
@@ -110,11 +109,3 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 <button id="newAddress" *ngIf="addressInfoBlock !== false" mat-raised-button color="basic" (click)="newAddressModal('addAddress', element)">add new address</button> 
-
-
-
-
-
-
-
-

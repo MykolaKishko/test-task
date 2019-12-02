@@ -66,22 +66,35 @@ export class SearchComponent implements OnInit {
   }
   openMainModal(action: string, user: Users): void {
     const users = this.mainInfo;
-    this.dialog.open(UpdateMainComponent, {
+    const dialog = this.dialog.open(UpdateMainComponent, {
       data: { user, action, users }
+    });
+    dialog.afterClosed().subscribe( () => {
+      this.store.subscribe( data => this.mainInfo = data.Users.users);
     });
   }
   openAddressModal(action: string, address: Address): void {
     const users = this.mainInfo;
     const selectedUser = this.selectedUser;
-    this.dialog.open(UpdateAddressComponent, {
+    const dialog = this.dialog.open(UpdateAddressComponent, {
       data: { address, action, users, selectedUser }
+    });
+    dialog.afterClosed().subscribe( () => {
+      this.store.subscribe(data => {
+        this.userAddresses = data.Users.selectedUser.address;
+      });
     });
   }
   newAddressModal(action: string, address: Address): void {
     const users = this.mainInfo;
     const selectedUser = this.selectedUser;
-    this.dialog.open(NewAddressModalComponent, {
+    const dialog = this.dialog.open(NewAddressModalComponent, {
       data: { address, action, users, selectedUser }
+    });
+    dialog.afterClosed().subscribe( () => {
+      this.store.subscribe(data => {
+        this.userAddresses = data.Users.selectedUser.address;
+      });
     });
   }
   rowClick(user): void {

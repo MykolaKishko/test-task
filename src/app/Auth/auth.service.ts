@@ -15,20 +15,8 @@ export class AuthService {
 
   private isAuthenticated = false;
 
-  log() {
+  log(): void {
     this.isAuthenticated = true;
-    // this.requestsService.getUsers().subscribe( users => {
-    //   if (!!users) {
-    //     users.map((user) => {
-    //       if (user.password === payload.password && user.userName === payload.userName) {
-    //         window.localStorage.setItem('User', JSON.stringify(user));
-    //         this.isAuthenticated = true;
-    //         this.router.navigate(['/system/userInfo']);
-    //         return user;
-    //       }
-    //     });
-    //   }
-    // });
   }
   logout(): void {
     this.isAuthenticated = false;

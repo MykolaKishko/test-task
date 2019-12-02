@@ -1,17 +1,19 @@
 import { Users } from 'src/app/shared/models/users';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
-import { CreateUser, GetAllUsers, AddAllUsers, DeleteUser, EditUser } from '../action/users.action';
+import { CreateUser, GetAllUsers, AddAllUsers, DeleteUser, EditUser, AddSelectedUser } from '../action/users.action';
 import { tap } from 'rxjs/operators';
 import { RequestionService } from 'src/app/shared/services/requests.service';
 
 export class UsersModelState {
   users: Users[];
+  selectedUser: Users;
 }
 
 @State<UsersModelState>({
   name: 'Users',
   defaults: {
-    users: null
+    users: null,
+    selectedUser: null
   }
 })
 
@@ -45,6 +47,10 @@ export class CreateUserState {
     this.users = [ ...state.users, payload];
     this.requestService.addNewUser(payload).subscribe();
     return ctx.patchState({ ...ctx,  users: this.users });
+  }
+  @Action(AddSelectedUser)
+  addSelectedUser(ctx: StateContext<UsersModelState>, { payload }: AddSelectedUser) {
+    return ctx.patchState({ ...ctx,  selectedUser: payload });
   }
   @Action(DeleteUser)
   deleteUser(ctx: StateContext<UsersModelState>, { payload, id }: DeleteUser) {

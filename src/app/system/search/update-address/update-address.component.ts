@@ -5,7 +5,7 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Countries } from 'src/app/shared/models/countries';
 import { Store } from '@ngxs/store';
-import { EditUser } from 'src/app/store/action/users.action';
+import { EditUser, AddSelectedUser } from 'src/app/store/action/users.action';
 
 @Component({
   selector: 'app-update-address',
@@ -39,6 +39,7 @@ export class UpdateAddressComponent implements OnInit {
   }
 
   closeAddressModal(): void {
+    this.store.dispatch(new AddSelectedUser(this.data.selectedUser));
     this.dialog.closeAll();
   }
   editAddress(): void {
@@ -47,6 +48,7 @@ export class UpdateAddressComponent implements OnInit {
     this.data.selectedUser.address = [ ...this.data.selectedUser.address, ...this.addressForm.value ];
     this.data.users = [ ...this.data.users, ...this.data.selectedUser];
     this.store.dispatch(new EditUser(this.data.selectedUser));
+    this.store.dispatch(new AddSelectedUser(this.data.selectedUser));
     this.dialog.closeAll();
   }
   removeAddress(): void {
@@ -54,6 +56,7 @@ export class UpdateAddressComponent implements OnInit {
     this.data.selectedUser.address = this.data.selectedUser.address.filter( address => address.id !== this.data.address.id);
     this.data.users = [...this.data.users, ...this.data.selectedUser];
     this.store.dispatch(new EditUser(this.data.selectedUser));
+    this.store.dispatch(new AddSelectedUser(this.data.selectedUser));
     this.dialog.closeAll();
   }
   getCountry(): void {
