@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { CountriesService } from '../../../shared/services/countries.service';
 import { cityValidator, codeValidator } from '../../../shared/validators/validator';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Countries } from 'src/app/shared/models/countries';
 import { Store } from '@ngxs/store';
 import { EditUser, AddSelectedUser } from 'src/app/store/action/users.action';
+import { GetCountries } from 'src/app/store/action/countries.action';
 
 @Component({
   selector: 'app-update-address',
@@ -20,7 +20,6 @@ export class UpdateAddressComponent implements OnInit {
   countries: Countries[];
 
   constructor(
-    private countriesService: CountriesService,
     private store: Store,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UpdateAddressComponent>,
@@ -60,9 +59,7 @@ export class UpdateAddressComponent implements OnInit {
     this.dialog.closeAll();
   }
   getCountry(): void {
-    this.countriesService.getCountries().subscribe(
-      countries => this.countries = countries,
-        err => err
-    );
+    this.store.dispatch(new GetCountries());
+    this.store.subscribe( res => this.countries = res.Countries.countries);
   }
 }

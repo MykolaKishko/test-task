@@ -60,7 +60,7 @@
           <div class="pass-group col-lg-6 col-md-6">
             <label for="password1">Password:</label>
             <mat-form-field class="example-full-width inp-wrap">
-              <input matInput  id="password1" type="password" [(ngModel)]="pass1"  formControlName="password1"  >
+              <input matInput  id="password1" type="password" formControlName="password1"  #pass1>
             </mat-form-field>
             <mat-error *ngIf="editUserForm.get('password1').invalid && editUserForm.get('password1').touched">
               <mat-error *ngIf="editUserForm.get('password1')['errors']['required']">The password cannot be empty!</mat-error>
@@ -69,9 +69,9 @@
           </div>
       
           <div class="pass-group col-lg-6  col-md-6">
-            <label for="password2">Password:</label>
+            <label for="password2">Confirm password:</label>
             <mat-form-field class="example-full-width inp-wrap">
-              <input matInput  id="password" type="password"  [(ngModel)]="pass2"  formControlName="password" >
+              <input matInput  id="password" type="password" formControlName="password" #pass2>
             </mat-form-field>
             <mat-error *ngIf="editUserForm.get('password').invalid && editUserForm.get('password').touched">
               <mat-error *ngIf="editUserForm.get('password')['errors']['required']">The password cannot be empty!</mat-error>
@@ -82,7 +82,7 @@
         </div>
         <div class="wrap">
           <button mat-raised-button (click)="closeMainModal()" >Cancel</button>
-          <button mat-raised-button color="primary" class="bg-primary" (click)="editUser()"   [disabled]="editUserForm.invalid">Save</button>
+          <button mat-raised-button color="primary" class="bg-primary" (click)="editUser()"   [disabled]="editUserForm.invalid || pass1.value !== pass2.value">Save</button>
         </div>
       </form>
   </div>

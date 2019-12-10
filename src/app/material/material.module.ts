@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import {
   MatButtonModule,
   MatTabsModule,
@@ -10,7 +11,8 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatProgressSpinnerModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 
@@ -25,11 +27,11 @@ const MaterialComponents = [
   MatPaginatorModule,
   MatSortModule,
   MatProgressSpinnerModule,
-  MatDialogModule
+  MatDialogModule,
 ];
 
 @NgModule({
-  imports: [ MaterialComponents ],
+  imports: [ MaterialComponents, MatSnackBarModule ],
   exports: [ MaterialComponents ]
 })
 export class MaterialModule { }

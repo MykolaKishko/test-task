@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CountriesService } from '../../shared/services/countries.service';
 import {
   passwordValidator,
   phoneNumberValidator,
@@ -15,6 +14,7 @@ import { Users } from 'src/app/shared/models/users';
 import { Store } from '@ngxs/store';
 import { CreateUser, AddAllUsers } from 'src/app/store/action/users.action';
 import { Navigate } from '@ngxs/router-plugin';
+import { GetCountries } from 'src/app/store/action/countries.action';
 
 @Component({
   selector: 'app-create-user',
@@ -27,20 +27,15 @@ export class CreateUserComponent implements OnInit {
   mainForm: FormGroup;
   addressForm: FormGroup;
   newUser: Users;
-  displayMainInfoBlock: boolean;
+  displayMainInfoBlock = true;
   displayAddressInfoBlock: boolean;
-  displayPreviewModal: boolean;
+  displayPreviewModal = false;
   countries: Countries[];
 
-  constructor(
-    private countriesService: CountriesService,
-    private store: Store
-  ) {}
+  constructor( private store: Store ) {}
 
   ngOnInit() {
     this.store.dispatch(new AddAllUsers());
-    this.displayMainInfoBlock = true;
-    this.displayPreviewModal = false;
     this.getCountry();
     this.mainForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, firstNameValidator]),
@@ -66,10 +61,8 @@ export class CreateUserComponent implements OnInit {
     this.displayAddressInfoBlock = true;
   }
   getCountry(): void {
-    this.countriesService.getCountries().subscribe(
-      countries => this.countries = countries,
-      err => err
-    );
+    this.store.dispatch(new GetCountries());
+    this.store.subscribe( res => this.countries = res.Countries.countries);
   }
   addNewAddress(): void {
     this.addressForm.reset();
@@ -92,6 +85,8 @@ export class CreateUserComponent implements OnInit {
   save(): void {
     this.store.dispatch(new CreateUser(this.newUser));
     this.store.dispatch(new Navigate(['/system/userInfo']));
+    this.displayMainInfoBlock = true;
+    this.displayPreviewModal = false;
   }
   backToMain(): void {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;

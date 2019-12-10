@@ -9,39 +9,24 @@ import { Users } from 'src/app/shared/models/users';
 
 export class RequestionService {
 
-  users = [];
   URL = 'http://localhost:3000/users';
   authURL = 'http://localhost:3000/authUser';
 
   constructor( private http: HttpClient ) {}
 
-  getAuthUsers(): Observable<Users[]> {
-    return this.http.get<Users[]>(this.authURL);
-  }
-  addAuthUser(user: object ): Observable<object> {
-    return this.http.post(this.authURL, user);
-  }
   getUsers(): Observable<Users[]> {
     return this.http.get<Users[]>(this.URL);
   }
-  deleteUser(id: number): Observable<object> {
+  deleteUser(id: number): Observable<Users> {
     const url = `${this.URL}/${id}`;
-    return this.http.delete(url);
+    return this.http.delete<Users>(url);
   }
-  addNewUser( obj: Users ): Observable<object> {
-    return this.http.post( this.URL, obj);
+  addNewUser( obj: Users ): Observable<Users> {
+    return this.http.post<Users>( this.URL, obj);
   }
-  updateUser( userId: number, user: object ): void {
+  updateUser( userId: number, user: Users ): void {
     const url = `${this.URL}/${userId}`;
     this.http.delete(url).subscribe();
     this.http.post(this.URL, user).subscribe();
-  }
-  deleteAuthUser(): void {
-    this.getAuthUsers().subscribe( res => {
-      this.users = [...res];
-      this.users.map( authUser => {
-        this.http.delete(`${this.authURL}/${authUser.id}`).subscribe();
-      });
-    });
   }
 }

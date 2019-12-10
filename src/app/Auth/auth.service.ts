@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { RequestionService } from '../shared/services/requests.service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +6,7 @@ import { Router } from '@angular/router';
 
 export class AuthService {
 
-  constructor(
-    private requestsService: RequestionService,
-    private router: Router
-  ) {}
+  constructor() {}
 
   private isAuthenticated = false;
 

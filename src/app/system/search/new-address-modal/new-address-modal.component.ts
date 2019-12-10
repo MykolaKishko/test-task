@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { cityValidator, codeValidator } from '../../../shared/validators/validator';
-import { CountriesService } from 'src/app/shared/services/countries.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Countries } from 'src/app/shared/models/countries';
 import { Store } from '@ngxs/store';
 import { EditUser, AddSelectedUser } from 'src/app/store/action/users.action';
+import { GetCountries } from 'src/app/store/action/countries.action';
 
 @Component({
   selector: 'app-new-address-modal',
@@ -20,7 +20,6 @@ export class NewAddressModalComponent implements OnInit {
   action = this.data;
 
   constructor(
-    private countriesService: CountriesService,
     private store: Store,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<NewAddressModalComponent>,
@@ -50,9 +49,7 @@ export class NewAddressModalComponent implements OnInit {
     this.dialog.closeAll();
   }
   getCountry(): void {
-    this.countriesService.getCountries().subscribe(
-      countries => this.countries = countries,
-      err => err
-    );
+    this.store.dispatch(new GetCountries());
+    this.store.subscribe( res => this.countries = res.Countries.countries);
   }
 }

@@ -6,6 +6,7 @@ import { RequestionService } from './requests.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
+
     constructor(private authService: AuthService, private router: Router, private requestService: RequestionService) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -17,11 +18,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                     accessDenied: true
                 }
             });
-            this.requestService.deleteAuthUser();
             return false;
         }
     }
-
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         return this.canActivate(childRoute, state);
     }

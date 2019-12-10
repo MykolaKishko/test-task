@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CountriesService } from '../../shared/services/countries.service';
 import {
   passwordValidator,
   phoneNumberValidator,
@@ -10,12 +9,12 @@ import {
   cityValidator,
   codeValidator
 } from '../../shared/validators/validator';
-import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from '../../shared/models/countries';
 import { Users } from 'src/app/shared/models/users';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
-import { Router } from '@angular/router';
+import { CreateUser } from 'src/app/store/action/users.action';
+import { GetCountries } from 'src/app/store/action/countries.action';
 
 @Component({
   selector: 'app-registration',
@@ -28,21 +27,16 @@ export class RegistrationComponent implements OnInit {
   mainForm: FormGroup;
   addressForm: FormGroup;
   newUser: Users;
-  displayMainInfoBlock: boolean;
+  displayMainInfoBlock = true;
   displayAddressInfoBlock: boolean;
-  displayPreviewModal: boolean;
+  displayPreviewModal = false;
   countries: Countries[];
 
   constructor(
-    private countriesService: CountriesService,
-    private requestionService: RequestionService,
-    private store: Store,
-    private router: Router
+    private store: Store
   ) { }
 
   ngOnInit() {
-    this.displayMainInfoBlock = true;
-    this.displayPreviewModal = false;
     this.getCountry();
     this.mainForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, firstNameValidator]),
@@ -68,10 +62,8 @@ export class RegistrationComponent implements OnInit {
     this.displayAddressInfoBlock = true;
   }
   getCountry(): void {
-    this.countriesService.getCountries().subscribe(
-      countries => this.countries = countries,
-      err => err
-    );
+    this.store.dispatch(new GetCountries());
+    this.store.subscribe( res => this.countries = res.Countries.countries);
   }
   addNewAddress(): void {
     this.addressForm.reset();
@@ -91,8 +83,10 @@ export class RegistrationComponent implements OnInit {
     this.displayMainInfoBlock = true;
   }
   save(): void {
-    this.requestionService.addNewUser(this.newUser).subscribe();
+    this.store.dispatch(new CreateUser(this.newUser));
     this.store.dispatch(new Navigate(['/home']));
+    this.displayMainInfoBlock = true;
+    this.displayPreviewModal = false;
   }
   backToMain(): void {
     this.displayAddressInfoBlock = !this.displayAddressInfoBlock;

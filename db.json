@@ -4,30 +4,30 @@
       "firstName": "Admin",
       "lastName": "Admin",
       "userName": "admin",
-      "email": "ac672169@gmail.com",
+      "email": "ac67216@gmail.com",
       "phone": "0505934900",
       "password1": "000000",
       "password": "000000",
       "address": [
         {
           "type": "Home address",
-          "country": "Ukraine",
-          "city": "Lviv",
-          "code": 55555,
+          "country": "Greece",
+          "city": "Ass",
+          "code": 23444,
           "id": 1
         },
         {
-          "type": "Shipping address",
-          "country": "Ukraine",
-          "city": "Kalush",
-          "code": 44444,
+          "type": "Billing address",
+          "country": "Gabon",
+          "city": "Sdd",
+          "code": 21212,
           "id": 2
         },
         {
           "type": "Home address",
-          "country": "Ukraine",
-          "city": "Khg",
-          "code": 88888,
+          "country": "Namibia",
+          "city": "Xcc",
+          "code": 34443,
           "id": 3
         }
       ],
@@ -43,78 +43,10 @@
       "password": "zzzzz",
       "address": [
         {
-          "type": "Shipping address",
-          "country": "Virgin Islands (British)",
-          "city": "Asdd",
-          "code": 11111,
-          "id": 2
-        },
-        {
-          "type": "Shipping address",
-          "country": "Haiti",
-          "city": "Ass",
-          "code": 11111,
-          "id": 1
-        }
-      ],
-      "id": 2
-    }
-  ],
-  "authUser": [
-    {
-      "firstName": "Admin",
-      "lastName": "Admin",
-      "userName": "admin",
-      "email": "ac672169@gmail.com",
-      "phone": "0505934900",
-      "password1": "000000",
-      "password": "000000",
-      "address": [
-        {
           "type": "Home address",
           "country": "Ukraine",
           "city": "Lviv",
-          "code": 55555,
-          "id": 1
-        },
-        {
-          "type": "Shipping address",
-          "country": "Ukraine",
-          "city": "Kalush",
-          "code": 44444,
-          "id": 2
-        },
-        {
-          "type": "Home address",
-          "country": "Ukraine",
-          "city": "Khg",
-          "code": 88888,
-          "id": 3
-        }
-      ],
-      "id": 1
-    },
-    {
-      "firstName": "Mykola",
-      "lastName": "Kishko",
-      "userName": "mykola221",
-      "email": "ac672169@gmail.com",
-      "phone": "0505934900",
-      "password1": "zzzzz",
-      "password": "zzzzz",
-      "address": [
-        {
-          "type": "Shipping address",
-          "country": "Virgin Islands (British)",
-          "city": "Asdd",
-          "code": 11111,
-          "id": 2
-        },
-        {
-          "type": "Shipping address",
-          "country": "Haiti",
-          "city": "Ass",
-          "code": 11111,
+          "code": 12345,
           "id": 1
         }
       ],

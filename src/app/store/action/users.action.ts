@@ -5,12 +5,12 @@ export class CreateUser {
     constructor(public payload: Users) {}
 }
 export class AddSelectedUser {
-    static readonly type = '[Users] Add Selaect User';
+    static readonly type = '[Users] Add Selected User';
     constructor(public payload: Users) {}
 }
 export class DeleteUser {
     static readonly type = '[Users] Delete User';
-    constructor(public payload: Users[], public id: number) {}
+    constructor(public payload: Users) {}
 }
 export class EditUser {
     static readonly type = '[Users] Edit User';

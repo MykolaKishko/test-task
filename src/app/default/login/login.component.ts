@@ -5,6 +5,7 @@ import { LogIn } from 'src/app/store/action/login.action';
 import { Navigate } from '@ngxs/router-plugin';
 import { Users } from 'src/app/shared/models/users';
 import { AddAllUsers } from 'src/app/store/action/users.action';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,11 @@ import { AddAllUsers } from 'src/app/store/action/users.action';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
+  message: string;
 
   constructor(
-    private store: Store
+    private store: Store,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -28,14 +31,20 @@ export class LoginComponent implements OnInit {
 
   logIn() {
     let users: Users[];
-    this.store.subscribe(data => users = data.Users.users);
+    this.store.subscribe( data => users = data.Users.users);
+    users = users.filter( user => user.userName === this.form.value.userName && user.password === this.form.value.password);
     users.map( user => {
       if (user.userName === this.form.value.userName && user.password === this.form.value.password) {
         this.store.dispatch(new LogIn(user));
-        setTimeout( () => {
-          this.store.dispatch(new Navigate(['/system/userInfo']));
-        }, 400);
+        this.store.dispatch(new Navigate(['/system/userInfo']));
       }
     });
+    if (users[0] === undefined) {
+      this.snackBar.open( 'WRONG DATA', '  CLOSE', {
+        duration: 3000,
+      });
+    }
   }
 }
+
+

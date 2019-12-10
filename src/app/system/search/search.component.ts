@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Store, Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { MatDialog, MatTable } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CreateUserState } from 'src/app/store/state/users.state';
-import { CountriesService } from '../../shared/services/countries.service';
 import { UpdateMainComponent } from './update-main/update-main.component';
 import { UpdateAddressComponent } from './update-address/update-address.component';
 import { Users, Address } from 'src/app/shared/models/users';
@@ -12,6 +9,7 @@ import { NewAddressModalComponent } from './new-address-modal/new-address-modal.
 import { RequestionService } from 'src/app/shared/services/requests.service';
 import { Countries } from 'src/app/shared/models/countries';
 import { AddAllUsers } from 'src/app/store/action/users.action';
+import { GetCountries } from 'src/app/store/action/countries.action';
 
 @Component({
   selector: 'app-search',
@@ -33,17 +31,13 @@ export class SearchComponent implements OnInit {
   searchUsers = null;
   user: Users;
 
-  @Select(CreateUserState.getUser) user$: Observable<any>;
-
   constructor(
-    private countriesService: CountriesService,
     public dialog: MatDialog,
     private requestionService: RequestionService,
     private store: Store
   ) {}
 
   ngOnInit() {
-    this.addressInfoBlock = false;
     this.addAllUsers();
     this.getData();
     this.getCountry();
@@ -77,6 +71,7 @@ export class SearchComponent implements OnInit {
     const users = this.mainInfo;
     const selectedUser = this.selectedUser;
     const dialog = this.dialog.open(UpdateAddressComponent, {
+
       data: { address, action, users, selectedUser }
     });
     dialog.afterClosed().subscribe( () => {
@@ -107,7 +102,7 @@ export class SearchComponent implements OnInit {
     this.requestionService.getUsers().subscribe(users => {
       users.map(user => {
         for (const key in this.searchForm.value) {
-          if (this.searchForm.value[key] !== '' && user[key].includes(this.searchForm.value[key])) {
+          if (this.searchForm.value[key] !== '' && user[key].toLowerCase().includes(this.searchForm.value[key].toLowerCase())) {
             this.mainInfo = [...this.mainInfo, user];
           }
         }
@@ -122,9 +117,7 @@ export class SearchComponent implements OnInit {
     this.mainInfo = [];
   }
   getCountry(): void {
-    this.countriesService.getCountries().subscribe(
-      countries => (this.countries = countries),
-      err => err
-    );
+    this.store.dispatch(new GetCountries());
+    this.store.subscribe( res => this.countries = res.Countries.countries);
   }
 }
